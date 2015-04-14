@@ -26,7 +26,7 @@ Vagrant.configure(2) do |config|
 
   # Create a private network, which allows host-only access to the machine
   # using a specific IP.
-  config.vm.network "private_network", ip: "192.168.10.10", virtualbox__intnet: "project-charts"
+  config.vm.network "private_network", ip: "192.168.10.10"
 
   # Create a public network, which generally matched to bridged network.
   # Bridged networks make the machine appear as another physical device on
@@ -50,9 +50,6 @@ Vagrant.configure(2) do |config|
   #   # Customize the amount of memory on the VM:
       vb.memory = "384"
       vb.cpus = 1
-
-      # setup private networking
-      vb.customize ["modifyvm", :id, "--intnet1", "project-charts"]
   end
   #
   # View the documentation for the provider you are using for more
