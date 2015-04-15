@@ -13,3 +13,7 @@ source /home/vagrant/.profile
 
 nvm install 0.12.2
 nvm alias default 0.12.2
+
+# install global npm packages
+
+npm install -g gulp@3.8.11
