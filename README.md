@@ -2,9 +2,9 @@
 
 ## Vagrant
 
-Vagrant VMs are almost perfect apart from the default Shared Folder mechanism. In VirtualBox, the vboxsf shared folder FS has a number of shortcomings:
+Vagrant VMs are almost perfect apart from the default Shared Folder mechanism. In VirtualBox, the vboxfs shared folder has a number of shortcomings:
  
-### Lacks symblic link support
+### Lacks symbolic link support
 
 This can be hacked using: 
 
@@ -16,7 +16,7 @@ This can be hacked using:
 
 Additionally, if using Windows, the non Admin user must be provided with [create symbolic link permissions](http://superuser.com/questions/124679/how-do-i-create-a-link-in-windows-7-home-premium-as-a-regular-user?answertab=votes#125981).
 
-The above "work" but are less than ideal
+The above "works" but is less than ideal
 
 ### Does not expose file changes
 

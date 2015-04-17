@@ -1,17 +1,16 @@
-var path = require( "path" );
-var webpack = require( "webpack" );
+var path = require( 'path' );
+var webpack = require( 'webpack' );
 
 module.exports = {
     devtool: 'eval',
     entry: [
-        'webpack-dev-server/client?http://192.168.10.10:8080',
         'webpack/hot/only-dev-server',
-        './app/app'
+        './app/app.js'
     ],
     output: {
         path: path.join( __dirname, 'build' ),
         filename: 'bundle.js',
-        publicPath: '/app/'
+        publicPath: '/build/'
     },
     plugins: [
         new webpack.HotModuleReplacementPlugin(),
@@ -25,11 +24,11 @@ module.exports = {
         loaders: [
             {
                 test: /\.jsx?$/,
-                loaders: ['react-hot'],
+                loaders: ['react-hot', 'jsx?harmony'],
                 include: path.join( __dirname, 'app' )
             },
             {
-                test: /\.css$/, loader: "style-loader!css-loader"
+                test: /\.css$/, loader: 'style-loader!css-loader'
             }
         ],
         noParse: /\.min\.js/
