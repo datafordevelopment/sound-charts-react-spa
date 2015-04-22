@@ -13,24 +13,39 @@ module.exports = {
         publicPath: '/build/'
     },
     plugins: [
+        new webpack.ProvidePlugin( {
+            jQuery: "jquery",
+            $: "jquery",
+            "window.jQuery": "jquery"
+        } ),
         new webpack.HotModuleReplacementPlugin(),
         new webpack.NoErrorsPlugin()
     ],
     resolve: {
         extensions: ['', '.js', '.jsx'],
-        modulesDirectories: ['node_modules']
+        alias: {
+            //application aliases
+            "actions": path.join( __dirname, 'app', 'actions' ),
+            "components": path.join( __dirname, 'app', 'components' ),
+            "stores": path.join( __dirname, 'app', 'stores' ),
+            //vendor aliases
+            "jquery": 'jquery/dist/jquery.min.js'
+        }
     },
     module: {
         loaders: [
             {
                 test: /\.jsx?$/,
-                loaders: ['react-hot', 'jsx?harmony'],
+                loaders: ['react-hot', 'babel'],
                 include: path.join( __dirname, 'app' )
             },
             {
                 test: /\.css$/, loader: 'style-loader!css-loader'
-            }
-        ],
-        noParse: /\.min\.js/
+            },
+            { test: /\.woff2?$/,   loader: "url-loader?limit=10000&mimetype=application/font-woff" },
+            { test: /\.ttf$/,    loader: "file-loader" },
+            { test: /\.eot$/,    loader: "file-loader" },
+            { test: /\.svg$/,    loader: "file-loader" }            
+        ]
     }
 };

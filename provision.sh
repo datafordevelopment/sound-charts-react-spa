@@ -2,7 +2,7 @@
 
 # install dependencies
 sudo apt-get update
-sudo apt-get install -y git-core curl
+sudo apt-get install -y git-core curl build-essential
 
 # install node via nvm -  https://github.com/creationix/nvm
 echo "Installing nvm..."

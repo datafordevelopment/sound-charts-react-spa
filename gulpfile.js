@@ -27,7 +27,7 @@ gulp.task( 'webpack-dev-server', function( callback ){
             if ( err ) {
                 throw new gutil.PluginError( 'webpack-dev-server', err );
             }
-            gutil.log( '[webpack-dev-server]', 'http://192.168.10.10:8080/webpack-dev-server/assets/index.html' );
+            gutil.log( '[webpack-dev-server]', 'http://192.168.10.10:8080/webpack-dev-server/index.html' );
             callback();
         } );
 
