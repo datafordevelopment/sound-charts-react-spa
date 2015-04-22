@@ -1,37 +1,56 @@
 import React from 'react';
+import Reflux from 'reflux';
 
 import chartActions from 'actions/chartActions';
-import chartStore from 'stores/chartStore';
+import chartsStore from 'stores/charstStore';
+import Track from './track';
 
-var TracksContainer = React.createClass({
-    
-    mixins: [],
-    
+import LoadingSpinner from './loadingSpinner';
+
+var TracksContainer = React.createClass( {
+
+    mixins: [
+        Reflux.listenTo( chartsStore, 'onChartsLoaded' )
+    ],
+
     getInitialState() {
-        var trackData = chartStore.getDefaultData();
-        
+        var trackData = chartsStore.getDefaultData();
+
         return {
             loading: true,
-            tracks: trackData.tracks,
-            currentPage: trackData.currentPage,
-            chartTypes: trackData.chartTypes            
+            tracks: trackData.tracks
         }
     },
 
+    onChartsLoaded( tracks ) {
+        console.log('onChartsLoaded( tracks )', tracks );
+        this.setState( {
+            loading: false,
+            tracks
+        } );
+
+    },
+
     render() {
+        var loadingBlock;
         var tracks = this.state.tracks;
-        
-        tracks =  tracks.map(function(track) {
-            return <Track track={ track } key={ track.id } />;
-        });
-        
+
+        if ( this.state.loading ) {
+            loadingBlock = <LoadingSpinner />
+        }
+
+        tracks = tracks.map( function ( track ) {
+            return <Track track={ track } key={ track.id }/>;
+        } );
+
         return (
             <div className="tracks-container">
+                { loadingBlock }
                 { tracks }
             </div>
         );
     }
 
-});
+} );
 
 export default TracksContainer;

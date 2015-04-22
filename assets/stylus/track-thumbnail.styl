@@ -1,0 +1,85 @@
+.track-thumbnail {
+
+    float: left;
+    margin: 10px;
+
+    .thumbnail-container {
+        position: relative;
+
+        .thumbnail {
+
+            img {
+                width: 150px;
+                height: 150px;
+            }
+
+            margin-bottom: 0;
+        }
+
+        .rank {
+            position: absolute;
+            top: 0;
+            left: 10px;
+
+            font-size: 35px;
+            font-weight: bold;
+            color: white;
+            text-shadow: -1px -1px 0 silver, 1px -1px 0 silver, -1px 1px 0 silver, 1px 1px 0 silver;
+            
+            opacity: 0.8;
+        }
+
+        .play-indicator {
+            position: absolute;
+
+            top: 50%;
+            left: 50%;
+            height: 30%;
+            width: 50%;
+            margin: -10% 0 0 -34%;
+
+            text-align: center;
+
+            opacity: 0;
+            
+            cursor: pointer;
+
+            transition: opacity 0.1s ease-in-out;
+
+            &:hover {
+                opacity: 0.9;
+            }
+
+            .fa-circle {
+                font-size: 80px;
+                color: #ff5602;
+            }
+
+            .fa.player-control {
+                padding-left: 22px;
+                font-size: 40px;
+            }
+
+            .player-control.fa-stop {
+                padding-left: 19px;
+                font-size: 35px;
+            }
+                
+
+        }
+
+    }
+
+    .track-title {
+        width: 150px;
+
+        padding: 0 3px 0 3px;
+        
+        white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis;
+
+        font-size: 12px;
+    }
+
+}

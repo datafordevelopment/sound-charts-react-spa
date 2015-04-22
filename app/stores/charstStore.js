@@ -2,7 +2,7 @@ import Reflux from 'reflux';
 
 import chartActions from 'actions/chartActions';
 
-var postsStore = Reflux.createStore( {
+var chartsStore = Reflux.createStore( {
 
     init() {
         //set some defaults
@@ -30,14 +30,13 @@ var postsStore = Reflux.createStore( {
     getDefaultData: function () {
         return {
             tracks: this.tracks,
-            currentPage: this.currentPage,
             chartTypes: this.chartTypes
         };
     }
 
 } );
 
-export default postsStore;
+export default chartsStore;
 
 //////////////////
 ///// PRIVATE
@@ -46,6 +45,7 @@ export default postsStore;
 function loadedCharts( tracks ) {
     console.log( '_loadedCharts tracks', tracks );
     this.tracks = tracks;
+    this.trigger( this.tracks );
 }
 
 function loadedChartDates( dates ) {

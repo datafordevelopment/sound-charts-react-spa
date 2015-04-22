@@ -4,6 +4,7 @@ var webpack = require( 'webpack' );
 module.exports = {
     devtool: 'eval',
     entry: [
+        'webpack-dev-server/client?http://192.168.10.10:8080',
         'webpack/hot/only-dev-server',
         './app/app.js'
     ],
@@ -13,13 +14,17 @@ module.exports = {
         publicPath: '/build/'
     },
     plugins: [
+        new webpack.HotModuleReplacementPlugin(),
+        new webpack.NoErrorsPlugin(),
         new webpack.ProvidePlugin( {
             jQuery: "jquery",
             $: "jquery",
             "window.jQuery": "jquery"
         } ),
-        new webpack.HotModuleReplacementPlugin(),
-        new webpack.NoErrorsPlugin()
+        new webpack.ProvidePlugin( {
+            "React": "react",
+            "window.React": "react"
+        } )
     ],
     resolve: {
         extensions: ['', '.js', '.jsx'],
