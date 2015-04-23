@@ -2,6 +2,7 @@ import React from 'react';
 
 import NavBar from './navbar';
 import TracksContainer from './tracksContainer';
+import TrackPlayer from './trackPlayer';
 
 var Application = React.createClass( {
 
@@ -10,6 +11,7 @@ var Application = React.createClass( {
             <div className="container">
                 <NavBar />
                 <TracksContainer />
+                <TrackPlayer />
             </div>
         );
     }

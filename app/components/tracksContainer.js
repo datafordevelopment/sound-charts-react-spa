@@ -1,3 +1,4 @@
+import _ from 'lodash';
 import React from 'react';
 import Reflux from 'reflux';
 
@@ -21,9 +22,13 @@ var TracksContainer = React.createClass( {
             tracks: trackData.tracks
         }
     },
+    
+    componentDidMount() {
+        chartActions.loadInitialCharts();        
+    },
 
     onChartsLoaded( tracks ) {
-        console.log('onChartsLoaded( tracks )', tracks );
+        console.log( 'onChartsLoaded( tracks )', tracks );
         this.setState( {
             loading: false,
             tracks
@@ -35,17 +40,16 @@ var TracksContainer = React.createClass( {
         var loadingBlock;
         var tracks = this.state.tracks;
 
-        if ( this.state.loading ) {
-            loadingBlock = <LoadingSpinner />
-        }
-
-        tracks = tracks.map( function ( track ) {
-            return <Track track={ track } key={ track.id }/>;
-        } );
-
+        tracks = _( tracks )
+            .filter( t => t.image_url )
+            .map( function ( track ) {
+                return <Track track={ track } key={ track.id }/>;
+            } )
+            .value();
+        
         return (
             <div className="tracks-container">
-                { loadingBlock }
+                { this.state.loading && <LoadingSpinner /> }
                 { tracks }
             </div>
         );
