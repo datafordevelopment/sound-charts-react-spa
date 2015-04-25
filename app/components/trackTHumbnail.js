@@ -1,6 +1,12 @@
 import React from 'react';
 
-var Track = React.createClass({
+import trackActions from 'actions/trackActions';
+
+var TrackThumbnail = React.createClass({
+
+    toggleTrackPlay(e) {
+        trackActions.start( this.props.track );
+    },
 
     render() {
         let track = this.props.track;
@@ -17,7 +23,9 @@ var Track = React.createClass({
             <div className="track-thumbnail">
                 
                 
-                <div className="thumbnail-container">
+                <div className="thumbnail-container"
+                     onClick={this.toggleTrackPlay}
+                    >
                     <div className="rank">
                         { track.rank_playback_count }
                     </div>
@@ -44,4 +52,4 @@ var Track = React.createClass({
 
 });
 
-export default Track;
+export default TrackThumbnail;

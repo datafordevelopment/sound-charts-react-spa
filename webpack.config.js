@@ -33,6 +33,7 @@ module.exports = {
             "actions": path.join( __dirname, 'app', 'actions' ),
             "components": path.join( __dirname, 'app', 'components' ),
             "stores": path.join( __dirname, 'app', 'stores' ),
+            "utils": path.join( __dirname, 'app', 'utils' ),
             //vendor aliases
             "jquery": 'jquery/dist/jquery.min.js'
         }

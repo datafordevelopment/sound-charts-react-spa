@@ -1,4 +1,4 @@
-var Q = require( 'q' );
+import Q from 'q';
 
 export function loadCharts() {
     return Q.Promise( resolve => {

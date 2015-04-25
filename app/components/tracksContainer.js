@@ -3,19 +3,19 @@ import React from 'react';
 import Reflux from 'reflux';
 
 import chartActions from 'actions/chartActions';
-import chartsStore from 'stores/charstStore';
-import Track from './track';
+import tracksStore from '../stores/tracksStore';
+import TrackThumbnail from './trackThumbnail';
 
 import LoadingSpinner from './loadingSpinner';
 
 var TracksContainer = React.createClass( {
 
     mixins: [
-        Reflux.listenTo( chartsStore, 'onChartsLoaded' )
+        Reflux.listenTo( tracksStore, 'onChartsLoaded' )
     ],
 
     getInitialState() {
-        var trackData = chartsStore.getDefaultData();
+        var trackData = tracksStore.getDefaultData();
 
         return {
             loading: true,
@@ -27,11 +27,11 @@ var TracksContainer = React.createClass( {
         chartActions.loadInitialCharts();        
     },
 
-    onChartsLoaded( tracks ) {
-        console.log( 'onChartsLoaded( tracks )', tracks );
+    onChartsLoaded( tracksData ) {
+        console.log( 'onChartsLoaded( tracks )', tracksData );
         this.setState( {
             loading: false,
-            tracks
+            tracks: tracksData.tracks
         } );
 
     },
@@ -43,12 +43,12 @@ var TracksContainer = React.createClass( {
         tracks = _( tracks )
             .filter( t => t.image_url )
             .map( function ( track ) {
-                return <Track track={ track } key={ track.id }/>;
+                return <TrackThumbnail track={ track } key={ track.id }/>;
             } )
             .value();
         
         return (
-            <div className="tracks-container">
+            <div className="tracks-container clearfix">
                 { this.state.loading && <LoadingSpinner /> }
                 { tracks }
             </div>
