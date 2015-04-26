@@ -1,29 +1,39 @@
 import React from 'react';
+import ClassNames from 'classnames';
 
 import trackActions from 'actions/trackActions';
 
-var TrackThumbnail = React.createClass({
+var TrackThumbnail = React.createClass( {
 
-    toggleTrackPlay(e) {
-        trackActions.start( this.props.track );
+    toggleTrackPlay( e ) {
+        trackActions.togglePlay( this.props.track );
     },
 
     render() {
-        let track = this.props.track;
-        
+        let track;
         let playerControl;
+        let thumbnailClasses;
         
-        if ( track.status === 'playing' ) {
-            playerControl = <i className="fa player-control fa-stack-1x fa-stop fa-inverse"></i>; 
+        track = this.props.track;
+
+        if ( this.props.playing ) {
+            playerControl = <i className="fa player-control fa-stack-1x fa-stop fa-inverse"></i>;
         } else {
             playerControl = <i className="fa player-control fa-stack-1x fa-play fa-inverse"></i>;
         }
-        
+
+        thumbnailClasses = ClassNames(
+            'thumbnail-container',
+            {
+                active: this.props.active
+            }
+        );
+
         return (
             <div className="track-thumbnail">
-                
-                
-                <div className="thumbnail-container"
+
+
+                <div className={thumbnailClasses}
                      onClick={this.toggleTrackPlay}
                     >
                     <div className="rank">
@@ -41,15 +51,15 @@ var TrackThumbnail = React.createClass({
                         </span>
                     </div>
                 </div>
-                
+
                 <div className="track-title" title={ track.name }>
-                    { track.name } 
+                    { track.name }
                 </div>
-                
+
             </div>
         );
     }
 
-});
+} );
 
 export default TrackThumbnail;

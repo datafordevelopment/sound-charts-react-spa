@@ -13,15 +13,27 @@ class SoundCloudPlayer extends React.Component {
         return nextProps.url !== this.props.url;
     }
 
+    componentWillReceiveProps( nextProps ) {
+        if (  this.props.playing !== nextProps.playing ) {
+            if ( nextProps.playing ) {
+                internalWidget && internalWidget.play();
+            } else {
+                internalWidget && internalWidget.pause();
+            }
+        }
+    }
+
     componentDidMount() {
         initializeWidget.call( this );
     }
 
     componentDidUpdate() {
+        console.log('componentDidUpdate()', this.props );
         reloadWidget.call( this );
     }
 
     componentWillUnmount() {
+        console.log('componentWillUnmount()' );
         unbindEvents.call( this );
     }
 
@@ -80,14 +92,27 @@ function setupWidget( widget ) {
 
 function reloadWidget() {
     console.log( 'reloadWidget() this.props.url', this.props.url );
-    internalWidget.load( this.props.url, this.props.opts );
+
+    if ( internalWidget ) {
+        internalWidget.load( this.props.url, _.merge({}, this.props.opts, {
+            callback: loaded.bind( this )
+        } ) );
+    } else {
+        initializeWidget.call( this );
+    }
+}
+
+function loaded() {
+    console.log('loaded this.props.playing', arguments );
+    if ( this.props.playing ) {
+        internalWidget.play();
+    }
 }
 
 function bindEvents() {
     internalWidget.bind( window.SC.Widget.Events.PLAY, this.props.onPlay );
     internalWidget.bind( window.SC.Widget.Events.PAUSE, this.props.onPause );
     internalWidget.bind( window.SC.Widget.Events.FINISH, this.props.onEnd );
-    //TODO bind to SC.Widget.Events.PLAY_PROGRESS 
 }
 
 function unbindEvents() {
