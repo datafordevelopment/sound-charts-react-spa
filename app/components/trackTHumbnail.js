@@ -1,5 +1,5 @@
 import React from 'react';
-import ClassNames from 'classnames';
+import cx from 'classnames';
 
 import trackActions from 'actions/trackActions';
 
@@ -13,7 +13,7 @@ var TrackThumbnail = React.createClass( {
         let track;
         let playerControl;
         let thumbnailClasses;
-        
+
         track = this.props.track;
 
         if ( this.props.playing ) {
@@ -22,7 +22,7 @@ var TrackThumbnail = React.createClass( {
             playerControl = <i className="fa player-control fa-stack-1x fa-play fa-inverse"></i>;
         }
 
-        thumbnailClasses = ClassNames(
+        thumbnailClasses = cx(
             'thumbnail-container',
             {
                 active: this.props.active
@@ -52,7 +52,7 @@ var TrackThumbnail = React.createClass( {
                     </div>
                 </div>
 
-                <div className="track-title" title={ track.name }>
+                <div className="track-title" data-toggle="tooltip" data-placement="top" title={ track.name }>
                     { track.name }
                 </div>
 

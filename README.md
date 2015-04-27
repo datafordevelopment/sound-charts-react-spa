@@ -3,10 +3,10 @@
 ## Vagrant
 
 Vagrant VMs are almost perfect apart from the default Shared Folder mechanism. In VirtualBox, the vboxfs shared folder has a number of shortcomings:
- 
+
 ### Lacks symbolic link support
 
-This can be hacked using: 
+This can be hacked using:
 
 ```
   config.vm.provider "virtualbox" do |vb|
@@ -24,7 +24,7 @@ This is a critical issue as LiveReload or WebPack's Hot Reload never detects fil
 
 ### Workaround 1
 
-Use an alternative sync method such as RSYNC or [Vagrant Unision](https://github.com/mrdavidlaing/vagrant-unison)
+Use an alternative sync method such as RSYNC or [Vagrant Unison](https://github.com/mrdavidlaing/vagrant-unison)
 
 ### Workaround 2
 

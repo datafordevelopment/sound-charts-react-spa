@@ -26,18 +26,26 @@
                 justify-content: center;
 
                 height: 100%;
-
-                cursor: pointer;
             }
 
             .fa {
                 font-size: 30px;
+                cursor: pointer;
 
                 transition: color 0.1s ease-in-out;
             }
 
             .fa:hover {
                 color: #ff5602;
+            }
+
+            .fa.disabled {
+                color: silver;
+                cursor: default;
+
+                &:hover {
+                    color: silver;
+                }
             }
         }
     }

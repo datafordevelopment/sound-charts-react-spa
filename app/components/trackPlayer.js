@@ -1,5 +1,6 @@
 import React from 'react';
 import Reflux from 'reflux';
+import cx from 'classnames';
 
 import SoundCloudPlayer from './soundCloudPlayer';
 
@@ -27,23 +28,38 @@ var TrackPlayer = React.createClass({
 
     onStartedPlay() {
         console.log('onStartedPlay()', arguments );
-        trackActions.start( this.state.currentTrack.track );
+        trackActions.start();
 
     },
 
     onEndedPlay() {
         console.log('onEndedPlay()', arguments );
-        trackActions.finished( this.state.currentTrack.track );
+        trackActions.finished();
     },
 
     onPausedPlay() {
         console.log('onPausedPlay()', arguments );
-        trackActions.stop( this.state.currentTrack.track );
+        trackActions.stop();
+    },
+
+    previousTrack() {
+        trackActions.previous();
+    },
+
+   nextTrack() {
+        trackActions.next();
     },
 
     render() {
         let currentTrack = this.state.currentTrack;
-        console.log('trackPlayer render()', currentTrack );
+        let nextClass = cx( 'fa fa-step-forward', {
+            disabled: currentTrack && currentTrack.isLast
+        } );
+        let prevClass = cx( 'fa fa-step-backward', {
+            disabled: currentTrack && currentTrack.isFirst
+        } );
+
+
         return (
             <div className="track-player">
                 <div className="container">
@@ -61,11 +77,11 @@ var TrackPlayer = React.createClass({
 
                     <div className="col-md-1 player-controls">
                         <div className="control">
-                            <i className="fa fa-step-backward"></i>
+                            <i className={nextClass} onClick={ this.nextTrack }></i>
                         </div>
 
                         <div className="control">
-                            <i className="fa fa-step-forward"></i>
+                            <i className={prevClass} onClick={ this.previousTrack }></i>
                         </div>
                     </div>
 

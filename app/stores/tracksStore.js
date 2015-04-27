@@ -7,10 +7,11 @@ import trackActions from 'actions/trackActions';
 var data = {
     tracks: [],
     currentTrack: {
-        track: null,
         playing: false
     }
 };
+
+var currentTrackIdx = -1;
 
 /**
  * chartsStore handles chart tracks loading
@@ -32,12 +33,11 @@ var tracksStore = Reflux.createStore( {
     },
 
     getData: function () {
-        var currentTrack = data.currentTrack.track;
-
         return _.merge( {}, data, {
             currentTrack: {
-                isFirst: trackIsFirst.call( this, currentTrack ),
-                isLast: trackIsLast.call( this, currentTrack )
+                track: trackFromCurrentTrackIdx.call( this ),
+                isFirst: trackIsFirst.call( this ),
+                isLast: trackIsLast.call( this )
             }
         } );
     }
@@ -53,49 +53,53 @@ export default tracksStore;
 function loadedCharts( tracks ) {
     console.log( '_loadedCharts tracks', tracks );
 
-    data.tracks = tracks;
-    data.currentTrack.track = _.first( tracks );
+    data.tracks = _( tracks )
+        .filter( track => track.image_url )
+        .value();
+
+    data.currentTrack.playing = false;
+    currentTrackIdx = 0;
+
+    this.trigger( this.getData() );
+}
+
+function trackStartPlay() {
+    data.currentTrack.playing = true;
+
+    this.trigger( this.getData() );
+}
+
+function trackFinishedPlay() {
+    setCurrentToNext.call( this );
+
+    this.trigger( this.getData() );
+}
+
+function trackStopPlay() {
     data.currentTrack.playing = false;
 
     this.trigger( this.getData() );
 }
 
-function trackStartPlay( track ) {
-    setCurrentTrack.call( this, track );
+function trackPlayNext() {
+    setCurrentToNext.call( this );
     data.currentTrack.playing = true;
 
     this.trigger( this.getData() );
 }
 
-function trackFinishedPlay( track ) {
-    setCurrentToNextTrack.call( this, track );
-
-    this.trigger( this.getData() );
-}
-
-function trackStopPlay( track ) {
-    setCurrentTrack.call( this, track );
-
-    this.trigger( this.getData() );
-}
-
-function trackPlayNext( track ) {
-    setCurrentToNextTrack.call( this, track );
-    data.currentTrack.playing = true;
-
-    this.trigger( this.getData() );
-}
-
-function trackPlayPrevious( track ) {
-    setCurrentToNextPrevious.call( this, track );
+function trackPlayPrevious() {
+    setCurrentToPrevious.call( this );
     data.currentTrack.playing = true;
 
     this.trigger( this.getData() );
 }
 
 function trackPlayToggle( track ) {
-    if ( track.id !== data.currentTrack.track.id ) {
-        setCurrentTrack.call( this, track );
+    let trackIdx = _.findIndex( data.tracks, t =>  t.id === track.id );
+
+    if ( trackIdx !== currentTrackIdx ) {
+        currentTrackIdx = trackIdx;
         data.currentTrack.playing = true;
     } else {
         data.currentTrack.playing = !data.currentTrack.playing;
@@ -104,36 +108,45 @@ function trackPlayToggle( track ) {
     this.trigger( this.getData() );
 }
 
-function setCurrentTrack( track ) {
-    data.currentTrack.track = track;
+function setCurrentTrack( trackIdx ) {
+    currentTrackIdx = trackIdx;
     data.currentTrack.playing = false;
 }
 
-function setCurrentToNextTrack( track ) {
-    let foundTrack = _.find( data.tracks, { id: track.id } );
-    let i = _.indexOf( data.tracks, foundTrack );
-
-    if ( (i !== -1) && (i < data.tracks.length) ) {
-        setCurrentTrack( data.tracks[ i + 1 ] );
+function setCurrentToNext() {
+    if ( data.tracks.length ) {
+        if ( (currentTrackIdx !== -1) && (currentTrackIdx < data.tracks.length) ) {
+            setCurrentTrack( currentTrackIdx + 1 );
+        } else {
+            setCurrentTrack( 0 );
+        }
     } else {
-        setCurrentTrack( _.first( data.tracks ) );
+        setCurrentTrack( -1 );
     }
 }
 
-function setCurrentToNextPrevious( track ) {
-    let i = _.indexOf( data.tracks, track );
-
-    if ( (i !== -1) && (i > 0) ) {
-        setCurrentTrack( data.tracks[ i - 1 ] );
+function setCurrentToPrevious() {
+    if ( data.tracks.length ) {
+        if ( (currentTrackIdx !== -1) && (currentTrackIdx > 0) ) {
+            setCurrentTrack( currentTrackIdx - 1 );
+        } else {
+            setCurrentTrack( 0 );
+        }
     } else {
-        setCurrentTrack( _.first( data.tracks ) );
+        setCurrentTrack( -1 );
     }
 }
 
-function trackIsFirst( track ) {
-    return _.first( data.tracks ) === track;
+function trackFromCurrentTrackIdx() {
+    if ( currentTrackIdx !== -1 ) {
+        return data.tracks[ currentTrackIdx ];
+    }
 }
 
-function trackIsLast( track ) {
-    return _.last( data.tracks ) === track;
+function trackIsFirst() {
+    return data.tracks.length && (currentTrackIdx === 0);
+}
+
+function trackIsLast() {
+    return data.tracks.length && (currentTrackIdx >= ( data.tracks.length - 1));
 }

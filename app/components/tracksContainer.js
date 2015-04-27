@@ -23,7 +23,14 @@ var TracksContainer = React.createClass( {
     },
 
     componentDidMount() {
-        chartActions.loadInitialCharts();
+        let dom = this;
+
+        function hookToolTips() {
+            $( React.findDOMNode( dom ) ).find( '[data-toggle="tooltip"]' ).tooltip();
+        }
+
+        chartActions.loadInitialCharts()
+            .then( hookToolTips )
     },
 
     onTracksChanged( tracksData ) {
@@ -47,7 +54,6 @@ var TracksContainer = React.createClass( {
 
 
         tracks = _( tracks )
-            .filter( track => track.image_url )
             .map( track => {
                 return (
                     <TrackThumbnail
@@ -55,7 +61,7 @@ var TracksContainer = React.createClass( {
                         key={ track.id }
                         active={ this.trackIsCurrentTrack( track ) }
                         playing={ this.trackIsCurrentTrack( track ) && currentTrack.playing }
-                     />
+                        />
                 );
             } )
             .value();
