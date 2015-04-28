@@ -3,11 +3,25 @@ var webpack = require( 'webpack' );
 
 module.exports = {
     devtool: 'eval',
-    entry: [
-        'webpack-dev-server/client?http://192.168.10.10:8080',
-        'webpack/hot/only-dev-server',
-        './app/app.js'
-    ],
+    entry: {
+        app: [
+            'webpack-dev-server/client?http://192.168.10.10:8080',
+            'webpack/hot/only-dev-server',
+            './app/app.js'
+        ],
+        vendor: [
+            'bootstrap',
+            'classnames',
+            'jquery',
+            'load-script',
+            'lodash',
+            'q',
+            'react',
+            'react-router',
+            'reflux'
+        ]
+    },
+
     output: {
         path: path.join( __dirname, 'build' ),
         filename: 'bundle.js',
@@ -24,10 +38,11 @@ module.exports = {
         new webpack.ProvidePlugin( {
             "React": "react",
             "window.React": "react"
-        } )
+        } ),
+        new webpack.optimize.CommonsChunkPlugin( "vendor", "vendor.bundle.js" )
     ],
     resolve: {
-        extensions: ['', '.js', '.jsx'],
+        extensions: [ '', '.js', '.jsx' ],
         alias: {
             //application aliases
             "actions": path.join( __dirname, 'app', 'actions' ),
@@ -42,16 +57,16 @@ module.exports = {
         loaders: [
             {
                 test: /\.jsx?$/,
-                loaders: ['react-hot', 'babel'],
+                loaders: [ 'react-hot', 'babel' ],
                 include: path.join( __dirname, 'app' )
             },
             {
                 test: /\.css$/, loader: 'style-loader!css-loader'
             },
-            { test: /\.woff2?$/,   loader: "url-loader?limit=10000&mimetype=application/font-woff" },
-            { test: /\.ttf$/,    loader: "file-loader" },
-            { test: /\.eot$/,    loader: "file-loader" },
-            { test: /\.svg$/,    loader: "file-loader" }            
+            { test: /\.woff2?$/, loader: "url-loader?limit=10000&mimetype=application/font-woff" },
+            { test: /\.ttf$/, loader: "file-loader" },
+            { test: /\.eot$/, loader: "file-loader" },
+            { test: /\.svg$/, loader: "file-loader" }
         ]
     }
 };

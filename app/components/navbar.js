@@ -1,6 +1,17 @@
 import React from 'react';
+import cx from 'classnames';
+import {Link} from 'react-router';
 
-var NavBar = React.createClass({
+
+var NavBar = React.createClass( {
+
+    contextTypes: {
+        router: React.PropTypes.func
+    },
+
+    activeClassForTo( to ) {
+        return cx( { active: this.context.router.isActive( to ) } );
+    },
 
     render() {
         return (
@@ -16,15 +27,15 @@ var NavBar = React.createClass({
                     </div>
                     <div className="navbar-collapse collapse">
                         <ul className="nav navbar-nav">
-                            <li><a href="/">Home</a></li>
-                            <li><a href="/about">About</a></li>
+                            <li className={this.activeClassForTo('charts')}><Link to="charts">Home</Link></li>
+                            <li className={this.activeClassForTo('about')}><Link  to="about">About</Link></li>
                         </ul>
                     </div>
                 </div>
-            </div>            
+            </div>
         );
     }
 
-});
+} );
 
 export default NavBar;
