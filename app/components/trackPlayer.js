@@ -2,13 +2,13 @@ import React from 'react';
 import Reflux from 'reflux';
 import cx from 'classnames';
 
-import SoundCloudPlayer from './soundCloudPlayer';
-
 import tracksStore from 'stores/tracksStore';
 
 import trackActions from 'actions/trackActions';
 
-var TrackPlayer = React.createClass({
+import SoundCloudPlayer from 'components/soundCloudPlayer';
+
+var TrackPlayer = React.createClass( {
     mixins: [
         Reflux.listenTo( tracksStore, 'onTracksStoreChange' )
     ],
@@ -16,20 +16,19 @@ var TrackPlayer = React.createClass({
     getInitialState() {
         return {
             currentTrack: null
-        }
+        };
     },
 
     onTracksStoreChange( trackData ) {
         console.log('TrackPlayer onTracksStoreChange( trackData )', trackData );
         this.setState( {
             currentTrack: trackData.currentTrack
-        } )
+        } );
     },
 
     onStartedPlay() {
         console.log('onStartedPlay()', arguments );
         trackActions.start();
-
     },
 
     onEndedPlay() {
@@ -46,7 +45,7 @@ var TrackPlayer = React.createClass({
         trackActions.previous();
     },
 
-   nextTrack() {
+    nextTrack() {
         trackActions.next();
     },
 
@@ -68,9 +67,9 @@ var TrackPlayer = React.createClass({
                         {currentTrack && <SoundCloudPlayer
                             url={ currentTrack.track.uri }
                             playing={ currentTrack.playing }
-                            onPlay={ _.debounce( this.onStartedPlay, 100 ) }
-                            onEnd={ _.debounce( this.onEndedPlay, 100 ) }
-                            onPause={ _.debounce( this.onPausedPlay, 100 ) }
+                            onPlay={ this.onStartedPlay }
+                            onEnd={ this.onEndedPlay }
+                            onPause={ this.onPausedPlay }
                             >
                         </SoundCloudPlayer>}
                     </div>
@@ -90,6 +89,6 @@ var TrackPlayer = React.createClass({
         );
     }
 
-});
+} );
 
 export default TrackPlayer;

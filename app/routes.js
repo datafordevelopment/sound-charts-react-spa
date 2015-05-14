@@ -1,9 +1,10 @@
-import Router, {Route} from 'react-router';
+import React from 'react';
+import {Route} from 'react-router';
 
 import Application from 'components/application';
-import About from 'components/about';
-import Charts from 'components/charts';
-import TrackPlayer from 'components/trackPlayer';
+
+import About from 'views/about';
+import Charts from 'views/charts';
 
 let routes = (
     <Route handler={Application}>

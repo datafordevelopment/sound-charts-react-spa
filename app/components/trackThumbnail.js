@@ -5,7 +5,7 @@ import trackActions from 'actions/trackActions';
 
 var TrackThumbnail = React.createClass( {
 
-    toggleTrackPlay( e ) {
+    toggleTrackPlay() {
         trackActions.togglePlay( this.props.track );
     },
 
@@ -24,6 +24,7 @@ var TrackThumbnail = React.createClass( {
 
         thumbnailClasses = cx(
             'thumbnail-container',
+            'col-md-2',
             {
                 active: this.props.active
             }
@@ -50,11 +51,13 @@ var TrackThumbnail = React.createClass( {
                             { playerControl }
                         </span>
                     </div>
+
+                    <div className="track-title" data-toggle="tooltip" data-placement="top" title={ track.name }>
+                        { track.name }
+                    </div>
+
                 </div>
 
-                <div className="track-title" data-toggle="tooltip" data-placement="top" title={ track.name }>
-                    { track.name }
-                </div>
 
             </div>
         );

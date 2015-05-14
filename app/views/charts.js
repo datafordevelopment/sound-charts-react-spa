@@ -1,8 +1,7 @@
 import React from 'react';
-import {RouteHandler} from 'react-router';
 
-import TracksContainer from './tracksContainer';
-import TrackPlayer from './trackPlayer';
+import TracksContainer from './../components/tracksContainer';
+import TrackPlayer from './../components/trackPlayer';
 
 var Charts = React.createClass( {
 

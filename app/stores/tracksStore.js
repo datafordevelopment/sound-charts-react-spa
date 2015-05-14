@@ -20,11 +20,11 @@ var tracksStore = Reflux.createStore( {
 
     init() {
         //chartActions listeners - these listen to async chart track loads
-        this.listenTo( chartActions.loadedCharts, loadedCharts.bind( this ) );
+        this.listenTo( chartActions.loadLatestCharts.completed, loadedCharts.bind( this ) );
 
         //playerActions listeners - these listen to track player actions
         this.listenTo( trackActions.start, trackStartPlay.bind( this ) );
-        this.listenTo( trackActions.finished, trackFinishedPlay.bind( this ) );
+        this.listenTo( trackActions.finished, trackPlayNext.bind( this ) );
         this.listenTo( trackActions.stop, trackStopPlay.bind( this ) );
         this.listenTo( trackActions.next, trackPlayNext.bind( this ) );
         this.listenTo( trackActions.previous, trackPlayPrevious.bind( this ) );
@@ -40,6 +40,11 @@ var tracksStore = Reflux.createStore( {
                 isLast: trackIsLast.call( this )
             }
         } );
+    },
+
+    trackIsCurrentTrack( track ) {
+        let current = trackFromCurrentTrackIdx.call( this );
+        return current && (track.id === current.id);
     }
 
 } );
@@ -51,8 +56,6 @@ export default tracksStore;
 //////////////////
 
 function loadedCharts( tracks ) {
-    console.log( '_loadedCharts tracks', tracks );
-
     data.tracks = _( tracks )
         .filter( track => track.image_url )
         .value();
@@ -65,12 +68,6 @@ function loadedCharts( tracks ) {
 
 function trackStartPlay() {
     data.currentTrack.playing = true;
-
-    this.trigger( this.getData() );
-}
-
-function trackFinishedPlay() {
-    setCurrentToNext.call( this );
 
     this.trigger( this.getData() );
 }

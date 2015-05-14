@@ -26,11 +26,13 @@ var TracksContainer = React.createClass( {
         let dom = this;
 
         function hookToolTips() {
-            $( React.findDOMNode( dom ) ).find( '[data-toggle="tooltip"]' ).tooltip();
+            setTimeout( () => {
+                $( React.findDOMNode( dom ) ).find( '[data-toggle="tooltip"]' ).tooltip();
+            } );
         }
 
-        chartActions.loadInitialCharts()
-            .then( hookToolTips )
+        chartActions.loadLatestCharts()
+            .then( hookToolTips );
     },
 
     onTracksChanged( tracksData ) {
@@ -41,11 +43,6 @@ var TracksContainer = React.createClass( {
                 loading: false
             } )
         );
-
-    },
-
-    trackIsCurrentTrack( track ) {
-        return this.state.currentTrack.track.id === track.id;
     },
 
     render() {
@@ -59,15 +56,15 @@ var TracksContainer = React.createClass( {
                     <TrackThumbnail
                         track={ track }
                         key={ track.id }
-                        active={ this.trackIsCurrentTrack( track ) }
-                        playing={ this.trackIsCurrentTrack( track ) && currentTrack.playing }
+                        active={ tracksStore.trackIsCurrentTrack( track ) }
+                        playing={ tracksStore.trackIsCurrentTrack( track ) && currentTrack.playing }
                         />
                 );
             } )
             .value();
 
         return (
-            <div className="tracks-container clearfix">
+            <div className="tracks-container clearfix row">
                 { this.state.loading && <LoadingSpinner /> }
                 { tracks }
             </div>

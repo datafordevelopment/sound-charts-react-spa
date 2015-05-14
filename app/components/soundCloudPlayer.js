@@ -1,41 +1,76 @@
+import _ from 'lodash';
 import React from 'react';
 import load from 'load-script';
 
 let internalWidget = null;
+let playerState = 'stopped';
 
-class SoundCloudPlayer extends React.Component {
+var SoundCloudPlayer = React.createClass( {
 
-    constructor( props ) {
-        super( props );
-    }
+    getDefaultProps() {
+        return {
+            id: 'react-sc-widget',
+            opts: {
+                show_user: true,
+                visual: false,
+                show_comments: false,
+                show_playcount: true,
+                sharing: true,
+                liking: true,
+                buying: true,
+                download: true
+            },
+            onPlay: () => {
+            },
+            onPause: () => {
+            },
+            onEnd: () => {
+            }
+        };
+    },
 
     shouldComponentUpdate( nextProps ) {
         return nextProps.url !== this.props.url;
-    }
+    },
 
     componentWillReceiveProps( nextProps ) {
-        if (  this.props.playing !== nextProps.playing ) {
+        if ( this.props.playing !== nextProps.playing ) {
             if ( nextProps.playing ) {
-                internalWidget && internalWidget.play();
+                internalWidget && (playerState !== 'playing') && internalWidget.play();
             } else {
-                internalWidget && internalWidget.pause();
+                internalWidget && (playerState != 'stopped') && internalWidget.pause();
             }
         }
-    }
+    },
 
     componentDidMount() {
         initializeWidget.call( this );
-    }
+        playerState = 'stopped';
+    },
 
     componentDidUpdate() {
-        console.log('componentDidUpdate()', this.props );
+        console.log( 'componentDidUpdate()', this.props );
         reloadWidget.call( this );
-    }
+    },
 
     componentWillUnmount() {
-        console.log('componentWillUnmount()' );
         unbindEvents.call( this );
-    }
+    },
+
+    onPlay() {
+        playerState = 'playing';
+        this.props.onPlay();
+    },
+
+    onPause() {
+        playerState = 'stopped';
+        this.props.onPause();
+    },
+
+    onEnd() {
+        playerState = 'stopped';
+        this.props.onEnd();
+    },
 
     render() {
         return (
@@ -49,27 +84,8 @@ class SoundCloudPlayer extends React.Component {
         );
     }
 
-}
+} );
 
-SoundCloudPlayer.defaultProps = {
-    id: 'react-sc-widget',
-    opts: {
-        show_user: true,
-        visual: false,
-        show_comments: false,
-        show_playcount: true,
-        sharing: true,
-        liking: true,
-        buying: true,
-        download: true
-    },
-    onPlay: () => {
-    },
-    onPause: () => {
-    },
-    onEnd: () => {
-    }
-};
 
 export default SoundCloudPlayer;
 
@@ -79,7 +95,7 @@ export default SoundCloudPlayer;
 /////////////////////////////
 
 function initializeWidget() {
-    soundCloudSdkLoader( this.props.id, ( widget ) => {
+    soundCloudSdkLoader( this.props.id, widget => {
         setupWidget.call( this, widget );
         reloadWidget.call( this );
     } );
@@ -91,10 +107,8 @@ function setupWidget( widget ) {
 }
 
 function reloadWidget() {
-    console.log( 'reloadWidget() this.props.url', this.props.url );
-
     if ( internalWidget ) {
-        internalWidget.load( this.props.url, _.merge({}, this.props.opts, {
+        internalWidget.load( this.props.url, _.merge( {}, this.props.opts, {
             callback: loaded.bind( this )
         } ) );
     } else {
@@ -103,16 +117,15 @@ function reloadWidget() {
 }
 
 function loaded() {
-    console.log('loaded this.props.playing', arguments );
     if ( this.props.playing ) {
         internalWidget.play();
     }
 }
 
 function bindEvents() {
-    internalWidget.bind( window.SC.Widget.Events.PLAY, this.props.onPlay );
-    internalWidget.bind( window.SC.Widget.Events.PAUSE, this.props.onPause );
-    internalWidget.bind( window.SC.Widget.Events.FINISH, this.props.onEnd );
+    internalWidget.bind( window.SC.Widget.Events.PLAY, this.onPlay );
+    internalWidget.bind( window.SC.Widget.Events.PAUSE, this.onPause );
+    internalWidget.bind( window.SC.Widget.Events.FINISH, this.onEnd );
 }
 
 function unbindEvents() {
@@ -122,8 +135,12 @@ function unbindEvents() {
 }
 
 
-function soundCloudSdkLoader ( id, cb ){
-    return load( 'https://w.soundcloud.com/player/api.js', () => {
-        return cb( window.SC.Widget( id ) );
-    } );
+function soundCloudSdkLoader( id, cb ) {
+    if ( window.SC ) {
+        cb( window.SC.Widget( id ) );
+    } else {
+        load( 'https://w.soundcloud.com/player/api.js', () => {
+            cb( window.SC.Widget( id ) );
+        } );
+    }
 }

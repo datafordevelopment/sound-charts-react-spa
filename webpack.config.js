@@ -31,26 +31,29 @@ module.exports = {
         new webpack.HotModuleReplacementPlugin(),
         new webpack.NoErrorsPlugin(),
         new webpack.ProvidePlugin( {
-            jQuery: "jquery",
-            $: "jquery",
-            "window.jQuery": "jquery"
+            jQuery: 'jquery',
+            $: 'jquery',
+            'window.jQuery': 'jquery'
         } ),
         new webpack.ProvidePlugin( {
-            "React": "react",
-            "window.React": "react"
+            React: 'react',
+            'window.React': 'react'
         } ),
-        new webpack.optimize.CommonsChunkPlugin( "vendor", "vendor.bundle.js" )
+        new webpack.optimize.CommonsChunkPlugin( 'vendor', 'vendor.bundle.js' )
     ],
     resolve: {
         extensions: [ '', '.js', '.jsx' ],
         alias: {
             //application aliases
-            "actions": path.join( __dirname, 'app', 'actions' ),
-            "components": path.join( __dirname, 'app', 'components' ),
-            "stores": path.join( __dirname, 'app', 'stores' ),
-            "utils": path.join( __dirname, 'app', 'utils' ),
+            actions: path.join( __dirname, 'app', 'actions' ),
+            components: path.join( __dirname, 'app', 'components' ),
+            resources: path.join( __dirname, 'app', 'resources' ),
+            stores: path.join( __dirname, 'app', 'stores' ),
+            views: path.join( __dirname, 'app', 'views' ),
+            utils: path.join( __dirname, 'app', 'utils' ),
+
             //vendor aliases
-            "jquery": 'jquery/dist/jquery.min.js'
+            jquery: 'jquery/dist/jquery.min.js'
         }
     },
     module: {
@@ -60,13 +63,15 @@ module.exports = {
                 loaders: [ 'react-hot', 'babel' ],
                 include: path.join( __dirname, 'app' )
             },
-            {
-                test: /\.css$/, loader: 'style-loader!css-loader'
-            },
-            { test: /\.woff2?$/, loader: "url-loader?limit=10000&mimetype=application/font-woff" },
-            { test: /\.ttf$/, loader: "file-loader" },
-            { test: /\.eot$/, loader: "file-loader" },
-            { test: /\.svg$/, loader: "file-loader" }
+            { test: /\.css$/, loader: 'style-loader!css-loader' },
+            { test: /\.woff2?$/, loader: 'url-loader?limit=10000&mimetype=application/font-woff' },
+            { test: /\.ttf$/, loader: 'file-loader' },
+            { test: /\.eot$/, loader: 'file-loader' },
+            { test: /\.svg$/, loader: 'file-loader' }
+
         ]
+    },
+    resolveLoader: {
+        root: path.join( __dirname, 'node_modules' )
     }
 };
