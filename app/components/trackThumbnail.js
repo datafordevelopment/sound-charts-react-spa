@@ -24,7 +24,7 @@ var TrackThumbnail = React.createClass( {
 
         thumbnailClasses = cx(
             'thumbnail-container',
-            'col-md-2',
+            'col-xs-6 col-sm-4 col-md-2 col-lg-2',
             {
                 active: this.props.active
             }
@@ -39,6 +39,10 @@ var TrackThumbnail = React.createClass( {
                     >
                     <div className="rank">
                         { track.rank_playback_count }
+                    </div>
+
+                    <div className="stats">
+                        {trackIconClass.call( this )} {trackPlaybackDelta.call( this )}
                     </div>
 
                     <div className="thumbnail">
@@ -66,3 +70,33 @@ var TrackThumbnail = React.createClass( {
 } );
 
 export default TrackThumbnail;
+
+////////////////////////////
+/// Private
+
+function trackIconClass() {
+    let track = this.props.track;
+    let icon;
+
+    if ( track.last_rank_playback_count ) {
+        if ( track.rank_playback_count < track.last_rank_playback_count ) {
+            icon =  'fa-arrow-up';
+        } else if ( track.rank_playback_count > track.last_rank_playback_count ) {
+            icon =  'fa-arrow-down';
+        } else {
+            icon = 'fa-arrows-h';
+        }
+    } else {
+        icon = 'fa-star';
+    }
+
+    return <i className={cx( 'fa', icon )}></i>;
+}
+
+function trackPlaybackDelta() {
+    let track = this.props.track;
+
+    if ( track.last_rank_playback_count ) {
+        return Math.abs( ( track.last_rank_playback_count || 99 ) - track.rank_playback_count ) || '';
+    }
+}

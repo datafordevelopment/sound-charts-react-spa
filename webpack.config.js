@@ -10,13 +10,16 @@ module.exports = {
             './app/app.js'
         ],
         vendor: [
-            'bootstrap',
+            'bootstrap/dist/js/bootstrap.min.js',
+            'bootstrap/dist/css/bootstrap.min.css',
+            'bootstrap/dist/css/bootstrap-theme.min.css',
             'classnames',
             'jquery',
             'load-script',
             'lodash',
             'q',
             'react',
+            'react-chartist',
             'react-router',
             'reflux'
         ]
@@ -61,7 +64,8 @@ module.exports = {
             {
                 test: /\.jsx?$/,
                 loaders: [ 'react-hot', 'babel' ],
-                include: path.join( __dirname, 'app' )
+                include: path.join( __dirname, 'app' ),
+                exclude: path.join( __dirname, 'node_modules' )
             },
             { test: /\.css$/, loader: 'style-loader!css-loader' },
             { test: /\.woff2?$/, loader: 'url-loader?limit=10000&mimetype=application/font-woff' },

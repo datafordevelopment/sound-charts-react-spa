@@ -10,7 +10,7 @@ let routes = (
     <Route handler={Application}>
 
         <Route name="charts" path="/" handler={Charts} />
-        <Route name="about" path="/about" handler={About} />
+        <Route name="about" handler={About} />
 
     </Route>
 );

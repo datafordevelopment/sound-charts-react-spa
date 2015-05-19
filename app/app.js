@@ -1,5 +1,5 @@
 //load CSS assets first
-require( 'bootstrap/dist/css/bootstrap.css' );
+require( 'bootstrap/dist/css/bootstrap.min.css' );
 require( 'bootstrap/dist/css/bootstrap-theme.min.css' );
 require( '../assets/main.css' );
 

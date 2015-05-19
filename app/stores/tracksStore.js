@@ -22,7 +22,7 @@ var tracksStore = Reflux.createStore( {
         //chartActions listeners - these listen to async chart track loads
         this.listenTo( chartActions.loadLatestCharts.completed, loadedCharts.bind( this ) );
 
-        //playerActions listeners - these listen to track player actions
+        //playerActions listeners - these listen to track player actions //TODO maybe these go in playerStore?
         this.listenTo( trackActions.start, trackStartPlay.bind( this ) );
         this.listenTo( trackActions.finished, trackPlayNext.bind( this ) );
         this.listenTo( trackActions.stop, trackStopPlay.bind( this ) );

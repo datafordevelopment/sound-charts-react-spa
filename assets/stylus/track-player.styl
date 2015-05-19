@@ -1,5 +1,6 @@
 .track-player {
     position: fixed;
+
     bottom: 0;
     left: 0;
     right: 0;
@@ -10,18 +11,33 @@
 
     background-color: white;
 
+    .row.stats {
+        display: none;
+    }
+
+    &.max{
+        top: 50px;
+        bottom: 0;
+
+        height: inherit;
+
+        .row.stats {
+            display: block;
+        }
+    }
+
     .container {
         height: 100%;
 
         .soundcloud-frame {
-            height: 100%;
+            height: 175px;
         }
 
         .player-controls {
             display: flex;
             flex-direction: column;
 
-            height: 100%;
+            height: 170px;
 
             .control {
                 display: flex;
@@ -49,6 +65,10 @@
                 &:hover {
                     color: silver;
                 }
+            }
+
+            .fa-info-circle {
+                color: blue;
             }
         }
     }
