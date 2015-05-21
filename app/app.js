@@ -1,7 +1,10 @@
 //load CSS assets first
 require( 'bootstrap/dist/css/bootstrap.min.css' );
 require( 'bootstrap/dist/css/bootstrap-theme.min.css' );
-require( '../assets/main.css' );
+
+require( 'chartist/dist/chartist.min.css' );
+
+require( '../assets/main.css' ); //todo - this should be in root bundle folder
 
 //external libraries
 require( 'bootstrap/dist/js/bootstrap.min.js' );

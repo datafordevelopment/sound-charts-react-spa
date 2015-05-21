@@ -13,6 +13,7 @@ module.exports = {
             'bootstrap/dist/js/bootstrap.min.js',
             'bootstrap/dist/css/bootstrap.min.css',
             'bootstrap/dist/css/bootstrap-theme.min.css',
+            'chartist/dist/chartist.min.css',
             'classnames',
             'jquery',
             'load-script',

@@ -38,7 +38,7 @@ var SoundCloudPlayer = React.createClass( {
             if ( nextProps.playing ) {
                 internalWidget && (playerState !== 'playing') && internalWidget.play();
             } else {
-                internalWidget && (playerState != 'stopped') && internalWidget.pause();
+                internalWidget && (playerState !== 'stopped') && internalWidget.pause();
             }
         }
     },

@@ -81,7 +81,7 @@ var TrackPlayer = React.createClass( {
                 <div className="container">
 
                     <div className="row">
-                        <div className="col-md-11 soundcloud-frame">
+                        <div className="col-md-11 col-xs-11 soundcloud-frame">
                             {currentTrack && <SoundCloudPlayer
                                 url={ currentTrack.track.uri }
                                 playing={ currentTrack.playing }
@@ -92,7 +92,7 @@ var TrackPlayer = React.createClass( {
                             </SoundCloudPlayer>}
                         </div>
 
-                        <div className="col-md-1 player-controls">
+                        <div className="col-md-1 col-xs-1 player-controls">
                             <div className="control">
                                 <i className={nextClass} onClick={ this.nextTrack }></i>
                             </div>
