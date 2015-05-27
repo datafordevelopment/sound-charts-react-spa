@@ -49,7 +49,6 @@ var SoundCloudPlayer = React.createClass( {
     },
 
     componentDidUpdate() {
-        console.log( 'componentDidUpdate()', this.props );
         reloadWidget.call( this );
     },
 

@@ -1,6 +1,10 @@
 import _ from 'lodash';
+import moment from 'moment';
 import React from 'react';
+import Chartist from 'chartist';
+import ChartistToolTip from 'lib/chartistTooltips';
 import ChartistGraph from 'react-chartist';
+
 
 import trackActions from 'actions/trackActions';
 
@@ -29,11 +33,10 @@ let TrackStatsAndCharts = React.createClass( {
     render() {
         let points = _.get(this.state, 'labels.length', 1);
         let options = {
-            showPoint: false,
             lineSmooth: false,
             axisY: {
                 labelOffset: {
-                    x: 20,
+                    x: 2,
                     y: 5
                 },
                 labelInterpolationFnc: function ( value ) {
@@ -45,7 +48,10 @@ let TrackStatsAndCharts = React.createClass( {
                 labelInterpolationFnc: function ( value, index ) {
                     return index % Math.round( points / 10 ) === 0 ? value : '';
                 }
-            }
+            },
+            plugins: [
+                Chartist.plugins.tooltip()
+            ]
         };
 
         return (
@@ -60,11 +66,11 @@ let TrackStatsAndCharts = React.createClass( {
                 <div className="charts">
                     <div className="row">
                         <div className="col-md-6 col-sm-12 col-xs-12 track-graph">
-                            <h3 className="text-center">Playback Count</h3>
+                            <h3 className="text-center">Rank by Playbacks</h3>
                             <ChartistGraph data={this.state.playbackRankData} options={options} type="Line"/>
                         </div>
                         <div className="col-md-6 col-sm-12 col-xs-12 track-graph">
-                            <h3 className="text-center">Favourites Rank</h3>
+                            <h3 className="text-center">Rank by Favourites</h3>
                             <ChartistGraph data={this.state.favouriteRankData} options={options} type="Line"/>
                         </div>
                     </div>
@@ -107,7 +113,7 @@ function buildCharts( data ) {
 
     function getLabels() {
         return dataTransformer( data, ( result, snapshot ) => {
-            result.push( new Date( snapshot.snapshotDate ) );
+            result.push( moment( snapshot.snapshotDate ).format( 'MM/DD' ) );
         } );
     }
 
@@ -119,26 +125,37 @@ function buildCharts( data ) {
         }, [] );
     }
 
-    function propertyTransformer( data, property, weight = 1 ) {
+    function propertyTransformer( data, property, weight, metaGetter ) {
         return dataTransformer( data, ( result, snapshot ) => {
-            result.push( snapshot[property] * weight );
+            result.push( {
+                value: snapshot[property] * weight,
+                meta: metaGetter( snapshot )
+            } );
         } );
     }
 
     function playbackRankValues() {
-        return propertyTransformer( data, 'rankPlaybackCount', -1 );
+        return propertyTransformer( data, 'rankPlaybackCount', -1, snapshot => {
+            return `Ranked ${snapshot.rankPlaybackCount} on ${moment(snapshot.snapshotDate).format('DD/MM')}`;
+        } );
     }
 
     function playbackFavouritesValues() {
-        return propertyTransformer( data, 'rankFavoritingsCount', -1 );
+        return propertyTransformer( data, 'rankFavoritingsCount', -1, snapshot => {
+            return `Ranked ${snapshot.rankFavoritingsCount} on ${moment(snapshot.snapshotDate).format('DD/MM')}`;
+        } );
     }
 
     function playbackDeltas() {
-        return propertyTransformer( data, 'playbackCountDelta' );
+        return propertyTransformer( data, 'playbackCountDelta', 1, snapshot => {
+            return `${snapshot.playbackCountDelta.toLocaleString()} playbacks on ${moment(snapshot.snapshotDate).format('DD/MM')}`;
+        } );
     }
 
     function playbackValues() {
-        return propertyTransformer( data, 'playbackCount' );
+        return propertyTransformer( data, 'playbackCount', 1, snapshot => {
+            return `${snapshot.playbackCount.toLocaleString()} playbacks by ${moment(snapshot.snapshotDate).format('DD/MM')}`;
+        } );
     }
 
     labels = getLabels();

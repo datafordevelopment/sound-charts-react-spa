@@ -1,10 +1,15 @@
 import React from 'react';
-
 import {RouteHandler} from 'react-router';
+
+import chartActions from 'actions/chartActions';
 
 import NavBar from 'components/navbar';
 
 var Application = React.createClass( {
+
+    componentDidMount() {
+        chartActions.loadLatestCharts();
+    },
 
     render() {
         return (

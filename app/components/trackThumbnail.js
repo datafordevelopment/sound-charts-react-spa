@@ -46,7 +46,8 @@ var TrackThumbnail = React.createClass( {
                     </div>
 
                     <div className="thumbnail">
-                        <img src={track.image_url} alt=""/>
+                        {track.image_url && <img src={track.image_url} alt=""/>}
+                        {!track.image_url && <img data-src="holder.js/155x155?auto=yes&text=No Image :'(" className="holder"/>}
                     </div>
 
                     <div className="play-indicator">

@@ -27,7 +27,7 @@ var NavBar = React.createClass( {
                     </div>
                     <div className="navbar-collapse collapse">
                         <ul className="nav navbar-nav">
-                            <li className={this.activeClassForTo('charts')}><Link to="charts">Home</Link></li>
+                            <li className={this.activeClassForTo('charts')}><Link to="charts">Charts</Link></li>
                             <li className={this.activeClassForTo('about')}><Link  to="about">About</Link></li>
                         </ul>
                     </div>

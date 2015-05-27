@@ -1,54 +1,62 @@
 import _ from 'lodash';
 import React from 'react';
 import Reflux from 'reflux';
+import Holder from 'holderjs';
 
-import chartActions from 'actions/chartActions';
-import tracksStore from '../stores/tracksStore';
-import TrackThumbnail from './trackThumbnail';
+import tracksStore from 'stores/tracksStore';
+import playerStore from 'stores/playerStore';
 
-import LoadingSpinner from './loadingSpinner';
+import TrackThumbnail from 'components/trackThumbnail';
 
 var TracksContainer = React.createClass( {
 
     mixins: [
-        Reflux.listenTo( tracksStore, 'onTracksChanged' )
+        Reflux.listenTo( tracksStore, 'onTracksChanged' ),
+        Reflux.listenTo( playerStore, 'onPlayerTrackChanged' )
     ],
 
     getInitialState() {
-        var trackData = tracksStore.getData();
+        var tracksData = tracksStore.getData();
 
-        return _.merge( {}, trackData, {
-            loading: true
-        } );
+        return {
+            tracks: tracksData.tracks,
+            currentTrack: playerStore.getData()
+        };
+    },
+
+    componentDidUpdate() {
+        integratePlugins.call( this );
     },
 
     componentDidMount() {
-        let dom = this;
-
-        function hookToolTips() {
-            setTimeout( () => {
-                $( React.findDOMNode( dom ) ).find( '[data-toggle="tooltip"]' ).tooltip();
-            } );
-        }
-
-        chartActions.loadLatestCharts()
-            .then( hookToolTips );
+        integratePlugins.call( this );
     },
 
     onTracksChanged( tracksData ) {
-        console.log( 'onTracksChanged( tracks )', tracksData );
+        this.setState( {
+            tracks: tracksData.tracks
+        } );
+    },
 
-        this.setState(
-            _.merge( {}, tracksData, {
-                loading: false
-            } )
-        );
+    onPlayerTrackChanged( playerData ) {
+        this.setState( {
+            currentTrack: {
+                track: playerData.track,
+                playing: playerData.playing
+            }
+        } );
+    },
+
+    trackIsCurrentTrack( track ) {
+        return track.id === _.get( this.state, 'currentTrack.track.id' );
+    },
+
+    trackIsCurrentAndPlaying( track ) {
+        return this.trackIsCurrentTrack( track ) && _.get( this.state, 'currentTrack.playing' );
     },
 
     render() {
         let tracks = this.state.tracks;
-        let currentTrack = this.state.currentTrack;
-
 
         tracks = _( tracks )
             .map( track => {
@@ -56,8 +64,8 @@ var TracksContainer = React.createClass( {
                     <TrackThumbnail
                         track={ track }
                         key={ track.id }
-                        active={ tracksStore.trackIsCurrentTrack( track ) }
-                        playing={ tracksStore.trackIsCurrentTrack( track ) && currentTrack.playing }
+                        active={ this.trackIsCurrentTrack( track ) }
+                        playing={ this.trackIsCurrentAndPlaying( track )   }
                         />
                 );
             } )
@@ -65,7 +73,6 @@ var TracksContainer = React.createClass( {
 
         return (
             <div className="tracks-container clearfix row">
-                { this.state.loading && <LoadingSpinner /> }
                 { tracks }
             </div>
         );
@@ -74,3 +81,12 @@ var TracksContainer = React.createClass( {
 } );
 
 export default TracksContainer;
+
+
+/////////////////////
+//// Private
+
+function integratePlugins() {
+    $( React.findDOMNode( this ) ).find( '[data-toggle="tooltip"]' ).tooltip();
+    Holder.run( { images: 'img.holder' } );
+}

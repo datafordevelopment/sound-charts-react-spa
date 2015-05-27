@@ -15,9 +15,11 @@ module.exports = {
             'bootstrap/dist/css/bootstrap-theme.min.css',
             'chartist/dist/chartist.min.css',
             'classnames',
+            'holderjs',
             'jquery',
             'load-script',
             'lodash',
+            'moment',
             'q',
             'react',
             'react-chartist',
@@ -55,6 +57,7 @@ module.exports = {
             stores: path.join( __dirname, 'app', 'stores' ),
             views: path.join( __dirname, 'app', 'views' ),
             utils: path.join( __dirname, 'app', 'utils' ),
+            lib: path.join( __dirname, 'app', 'lib' ),
 
             //vendor aliases
             jquery: 'jquery/dist/jquery.min.js'

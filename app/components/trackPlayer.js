@@ -1,45 +1,40 @@
 import React from 'react';
 import Reflux from 'reflux';
 import cx from 'classnames';
+import {Navigation} from 'react-router';
 
-import tracksStore from 'stores/tracksStore';
-
+import playerStore from 'stores/playerStore';
 import trackActions from 'actions/trackActions';
-
 import SoundCloudPlayer from 'components/soundCloudPlayer';
-import TrackStatsAndCharts from 'components/trackStatsAndCharts';
 
 var TrackPlayer = React.createClass( {
     mixins: [
-        Reflux.listenTo( tracksStore, 'onTracksStoreChange' )
+        Navigation,
+        Reflux.listenTo( playerStore, 'onPlayerStoreChanged' )
     ],
 
     getInitialState() {
         return {
-            currentTrack: null,
+            currentTrack: playerStore.getData(),
             state: 'min'
         };
     },
 
-    onTracksStoreChange( trackData ) {
-        console.log('TrackPlayer onTracksStoreChange( trackData )', trackData );
+    onPlayerStoreChanged( playerData ) {
         this.setState( {
-            currentTrack: trackData.currentTrack
+            currentTrack: playerData
         } );
     },
 
     onStartedPlay() {
-        console.log('onStartedPlay()', arguments );
         trackActions.start();
     },
 
     onEndedPlay() {
-        console.log('onEndedPlay()', arguments );
         trackActions.finished();
     },
 
     onPausedPlay() {
-        console.log('onPausedPlay()', arguments );
         trackActions.stop();
     },
 
@@ -52,15 +47,11 @@ var TrackPlayer = React.createClass( {
     },
 
     showInfo() {
-        let newState = this.state.state === 'min' ? 'max' : 'min';
-
-        this.setState( {
-            state: newState
-        } );
-    },
-
-    isMaximised() {
-        return this.state.state === 'max';
+        if ( this.props.isMaxed ) {
+            this.transitionTo('charts');
+        } else {
+            this.transitionTo('info');
+        }
     },
 
     render() {
@@ -74,6 +65,7 @@ var TrackPlayer = React.createClass( {
         let playerClass = cx( 'track-player', {
             max: this.state.state === 'max'
         } );
+        let infoIconClass = this.props.isMaxed ? 'fa fa-times' : 'fa fa-info-circle';
 
 
         return (
@@ -82,7 +74,7 @@ var TrackPlayer = React.createClass( {
 
                     <div className="row">
                         <div className="col-md-11 col-xs-11 soundcloud-frame">
-                            {currentTrack && <SoundCloudPlayer
+                            {currentTrack.track && <SoundCloudPlayer
                                 url={ currentTrack.track.uri }
                                 playing={ currentTrack.playing }
                                 onPlay={ this.onStartedPlay }
@@ -98,7 +90,7 @@ var TrackPlayer = React.createClass( {
                             </div>
 
                             <div className="control">
-                                <i className="fa fa-info-circle" onClick={ this.showInfo }></i>
+                                <i className={infoIconClass} onClick={ this.showInfo }></i>
                             </div>
 
                             <div className="control">
@@ -106,16 +98,6 @@ var TrackPlayer = React.createClass( {
                             </div>
                         </div>
                     </div>
-
-                    {this.isMaximised() &&
-                        <div className="row stats">
-                            <div className="col-md-12 track">
-                                <TrackStatsAndCharts
-                                    track={currentTrack}
-                                    />
-                            </div>
-                        </div>
-                    }
                 </div>
             </div>
         );

@@ -9,6 +9,7 @@ var trackActions = Reflux.createActions( {
     finished: {},
     previous: {},
     next: {},
+    setToCurrentIndex: {},
 
     getTrackSnapshots: { asyncResult: true }
 } );
