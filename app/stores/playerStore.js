@@ -1,5 +1,6 @@
 import _ from 'lodash';
 import Reflux from 'reflux';
+import ga from 'react-ga';
 
 import tracksStore from 'stores/tracksStore';
 
@@ -52,12 +53,14 @@ function tracksChanged() {
 
 function trackStartPlay() {
     playing = true;
+    playerAnalytics.call( this, 'Started Playing' );
 
     this.trigger( this.getData() );
 }
 
 function trackStopPlay() {
     playing = false;
+    playerAnalytics.call( this, 'Paused Playing' );
 
     this.trigger( this.getData() );
 }
@@ -65,6 +68,7 @@ function trackStopPlay() {
 function trackPlayNext() {
     setCurrentToNext.call( this );
     playing = true;
+    playerAnalytics.call( this, 'Finished Playing, Next' );
 
     this.trigger( this.getData() );
 }
@@ -72,6 +76,7 @@ function trackPlayNext() {
 function trackPlayPrevious() {
     setCurrentToPrevious.call( this );
     playing = true;
+    playerAnalytics.call( this, 'Playing Previous' );
 
     this.trigger( this.getData() );
 }
@@ -138,4 +143,15 @@ function trackIsFirst() {
 
 function trackIsLast() {
     return tracksStore.tracksLength() && (currentTrackIdx >= (  tracksStore.tracksLength() - 1));
+}
+
+function playerAnalytics( action ) {
+    let track = trackFromCurrentTrackIdx.call( this );
+    let trackId = track && `${track.id}:${track.name}`;
+
+    ga.event( {
+        category: 'Player',
+        action: action,
+        label: trackId
+    } );
 }

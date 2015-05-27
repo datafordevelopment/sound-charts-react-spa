@@ -23,6 +23,7 @@ module.exports = {
             'q',
             'react',
             'react-chartist',
+            'react-ga',
             'react-router',
             'reflux'
         ]

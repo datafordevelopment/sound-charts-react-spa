@@ -12,6 +12,7 @@ require( 'bootstrap/dist/js/bootstrap.min.js' );
 import React from 'react';
 import Reflux from 'reflux';
 import Router from 'react-router';
+import ga from 'react-ga';
 
 //Configurations
 
@@ -22,6 +23,10 @@ import routes from './routes';
 ///////////////////
 /// INITIALISE
 
-Router.run( routes, Router.HistoryLocation, function ( Handler ) {
+
+ga.initialize( 'UA-55368874-1' );
+
+Router.run( routes, Router.HistoryLocation, function ( Handler, state ) {
+    ga.pageview( state.pathname );
     React.render( <Handler/>, document.getElementById( 'application' ) );
 } );
