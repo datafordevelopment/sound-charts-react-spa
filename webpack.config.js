@@ -1,86 +1,83 @@
+var _ = require( 'lodash' );
 var path = require( 'path' );
 var webpack = require( 'webpack' );
 
-module.exports = {
-    devtool: 'eval',
-    entry: {
-        app: [
-            'webpack-dev-server/client?http://192.168.10.10:8080',
-            'webpack/hot/only-dev-server',
-            './app/app.js'
+module.exports = function ( options ) {
+    var config = _.merge( {}, {
+        entry: {
+            vendor: [
+                'bootstrap/dist/js/bootstrap.min.js',
+                'bootstrap/dist/css/bootstrap.min.css',
+                'bootstrap/dist/css/bootstrap-theme.min.css',
+                'chartist/dist/chartist.min.css',
+                'chartist',
+                'classnames',
+                'holderjs',
+                'jquery',
+                'load-script',
+                'lodash',
+                'moment',
+                'q',
+                'react',
+                'react-chartist',
+                'react-ga',
+                'react-router',
+                'reflux'
+            ]
+        },
+
+        output: {
+            path: path.join( __dirname, 'bundle' ),
+            filename: 'app.js',
+            publicPath: '/bundle/'
+        },
+        plugins: [
+            new webpack.HotModuleReplacementPlugin(),
+            new webpack.NoErrorsPlugin(),
+            new webpack.ProvidePlugin( {
+                jQuery: 'jquery',
+                $: 'jquery',
+                'window.jQuery': 'jquery'
+            } ),
+            new webpack.ProvidePlugin( {
+                React: 'react',
+                'window.React': 'react'
+            } ),
+            new webpack.optimize.CommonsChunkPlugin( 'vendor', 'vendor.js' )
         ],
-        vendor: [
-            'bootstrap/dist/js/bootstrap.min.js',
-            'bootstrap/dist/css/bootstrap.min.css',
-            'bootstrap/dist/css/bootstrap-theme.min.css',
-            'chartist/dist/chartist.min.css',
-            'classnames',
-            'holderjs',
-            'jquery',
-            'load-script',
-            'lodash',
-            'moment',
-            'q',
-            'react',
-            'react-chartist',
-            'react-ga',
-            'react-router',
-            'reflux'
-        ]
-    },
+        resolve: {
+            extensions: [ '', '.js', '.jsx' ],
+            alias: {
+                //application aliases
+                actions: path.join( __dirname, 'app', 'actions' ),
+                components: path.join( __dirname, 'app', 'components' ),
+                resources: path.join( __dirname, 'app', 'resources' ),
+                stores: path.join( __dirname, 'app', 'stores' ),
+                views: path.join( __dirname, 'app', 'views' ),
+                utils: path.join( __dirname, 'app', 'utils' ),
+                lib: path.join( __dirname, 'app', 'lib' ),
 
-    output: {
-        path: path.join( __dirname, 'build' ),
-        filename: 'bundle.js',
-        publicPath: '/build/'
-    },
-    plugins: [
-        new webpack.HotModuleReplacementPlugin(),
-        new webpack.NoErrorsPlugin(),
-        new webpack.ProvidePlugin( {
-            jQuery: 'jquery',
-            $: 'jquery',
-            'window.jQuery': 'jquery'
-        } ),
-        new webpack.ProvidePlugin( {
-            React: 'react',
-            'window.React': 'react'
-        } ),
-        new webpack.optimize.CommonsChunkPlugin( 'vendor', 'vendor.bundle.js' )
-    ],
-    resolve: {
-        extensions: [ '', '.js', '.jsx' ],
-        alias: {
-            //application aliases
-            actions: path.join( __dirname, 'app', 'actions' ),
-            components: path.join( __dirname, 'app', 'components' ),
-            resources: path.join( __dirname, 'app', 'resources' ),
-            stores: path.join( __dirname, 'app', 'stores' ),
-            views: path.join( __dirname, 'app', 'views' ),
-            utils: path.join( __dirname, 'app', 'utils' ),
-            lib: path.join( __dirname, 'app', 'lib' ),
+                //vendor aliases
+                jquery: 'jquery/dist/jquery.min.js'
+            }
+        },
+        module: {
+            loaders: [
+                { test: /\.css$/, loader: 'style-loader!css-loader' },
+                { test: /\.woff2?$/, loader: 'url-loader?limit=10000&mimetype=application/font-woff' },
+                { test: /\.ttf$/, loader: 'file-loader' },
+                { test: /\.eot$/, loader: 'file-loader' },
+                { test: /\.svg$/, loader: 'file-loader' }
 
-            //vendor aliases
-            jquery: 'jquery/dist/jquery.min.js'
+            ]
+        },
+        resolveLoader: {
+            root: path.join( __dirname, 'node_modules' )
         }
-    },
-    module: {
-        loaders: [
-            {
-                test: /\.jsx?$/,
-                loaders: [ 'react-hot', 'babel' ],
-                include: path.join( __dirname, 'app' ),
-                exclude: path.join( __dirname, 'node_modules' )
-            },
-            { test: /\.css$/, loader: 'style-loader!css-loader' },
-            { test: /\.woff2?$/, loader: 'url-loader?limit=10000&mimetype=application/font-woff' },
-            { test: /\.ttf$/, loader: 'file-loader' },
-            { test: /\.eot$/, loader: 'file-loader' },
-            { test: /\.svg$/, loader: 'file-loader' }
+    }, options.overrides );
 
-        ]
-    },
-    resolveLoader: {
-        root: path.join( __dirname, 'node_modules' )
-    }
+    config.module.loaders = _.union( config.module.loaders, options.loaders );
+    config.plugins = _.union( config.plugins, options.plugins );
+
+    return config;
 };

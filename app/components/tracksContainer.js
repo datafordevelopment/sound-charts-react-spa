@@ -7,6 +7,7 @@ import tracksStore from 'stores/tracksStore';
 import playerStore from 'stores/playerStore';
 
 import TrackThumbnail from 'components/trackThumbnail';
+import LoadingSpinner from 'components/loadingSpinner';
 
 var TracksContainer = React.createClass( {
 
@@ -57,6 +58,7 @@ var TracksContainer = React.createClass( {
 
     render() {
         let tracks = this.state.tracks;
+        let loading = !(_.get( this.state, 'tracks.length' ));
 
         tracks = _( tracks )
             .map( track => {
@@ -73,6 +75,7 @@ var TracksContainer = React.createClass( {
 
         return (
             <div className="tracks-container clearfix row">
+                { loading && <LoadingSpinner /> }
                 { tracks }
             </div>
         );

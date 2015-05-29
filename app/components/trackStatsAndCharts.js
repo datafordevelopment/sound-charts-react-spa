@@ -36,7 +36,7 @@ let TrackStatsAndCharts = React.createClass( {
             lineSmooth: false,
             axisY: {
                 labelOffset: {
-                    x: 2,
+                    x: 20,
                     y: 5
                 },
                 labelInterpolationFnc: function ( value ) {
