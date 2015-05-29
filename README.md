@@ -1,31 +1,28 @@
-# Development Setup
+# About
 
-## Vagrant
+**sound-charts-react-spa** is a ReactJS based front-end for the [Soundcloud Top 100 API](https://github.com/nazar/sound-charts-api) server.
 
-Vagrant VMs are almost perfect apart from the default Shared Folder mechanism. In VirtualBox, the vboxfs shared folder has a number of shortcomings:
+This is an experimental application that displays the calculated daily top 100 Soundcloud tracks based on playback counts.
 
-### Lacks symbolic link support
+Previously I used AngularJS to build the initial [frontend](https://github.com/nazar/sound-charts-spa) (to learn AngularJS and Grunt) and this version was used this to learn the following:
 
-This can be hacked using:
+* ReactJS
+* Webpack
+* Gulp
+
+All awesome stacks!!1
+
+# Development Environment Provisioning
+
+Please read the [Provisioning](./docs/provision.md) section for setting up the development environment.
+
+# Linting
+
+An [.eslintrc](./eslintrc) is provided for [ESLint](http://eslint.org/) but the eslint packages are not listed in [package.json](./package.json) as
+  the eslint modules are required for the client machine (and not the development server).
+
+To install JSX compatible ESLint modules:
 
 ```
-  config.vm.provider "virtualbox" do |vb|
-      vb.customize ["setextradata", :id, "VBoxInternal2/SharedFoldersEnableSymlinksCreate/vagrant", "1"]
-  end
+npm install -g eslint eslint-plugin-react
 ```
-
-Additionally, if using Windows, the non Admin user must be provided with [create symbolic link permissions](http://superuser.com/questions/124679/how-do-i-create-a-link-in-windows-7-home-premium-as-a-regular-user?answertab=votes#125981).
-
-The above "works" but is less than ideal
-
-### Does not expose file changes
-
-This is a critical issue as LiveReload or WebPack's Hot Reload never detects file changes. Any files in the /vagrant share will not be reloaded on file change.
-
-### Workaround 1
-
-Use an alternative sync method such as RSYNC or [Vagrant Unison](https://github.com/mrdavidlaing/vagrant-unison)
-
-### Workaround 2
-
-Configure your IDE/Text Editor to remote sync all files on change. WebStorm, for example, provides a facility where project files can be synced using SFTP.
