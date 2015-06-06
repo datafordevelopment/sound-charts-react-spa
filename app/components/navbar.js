@@ -3,7 +3,7 @@ import cx from 'classnames';
 import {Link} from 'react-router';
 
 
-var NavBar = React.createClass( {
+export default React.createClass( {
 
     contextTypes: {
         router: React.PropTypes.func
@@ -37,5 +37,3 @@ var NavBar = React.createClass( {
     }
 
 } );
-
-export default NavBar;

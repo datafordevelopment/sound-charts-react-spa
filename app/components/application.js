@@ -5,7 +5,7 @@ import chartActions from 'actions/chartActions';
 
 import NavBar from 'components/navbar';
 
-var Application = React.createClass( {
+export default React.createClass( {
 
     componentDidMount() {
         chartActions.loadLatestCharts();
@@ -24,5 +24,3 @@ var Application = React.createClass( {
     }
 
 } );
-
-export default Application;

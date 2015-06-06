@@ -7,7 +7,7 @@ import playerStore from 'stores/playerStore';
 import trackActions from 'actions/trackActions';
 import SoundCloudPlayer from 'components/soundCloudPlayer';
 
-var TrackPlayer = React.createClass( {
+export default React.createClass( {
     mixins: [
         Navigation,
         Reflux.listenTo( playerStore, 'onPlayerStoreChanged' )
@@ -104,5 +104,3 @@ var TrackPlayer = React.createClass( {
     }
 
 } );
-
-export default TrackPlayer;

@@ -5,7 +5,7 @@ import load from 'load-script';
 let internalWidget = null;
 let playerState = 'stopped';
 
-var SoundCloudPlayer = React.createClass( {
+export default React.createClass( {
 
     getDefaultProps() {
         return {
@@ -84,10 +84,6 @@ var SoundCloudPlayer = React.createClass( {
     }
 
 } );
-
-
-export default SoundCloudPlayer;
-
 
 //////////////////////////////
 //// PRIVATE

@@ -20,6 +20,7 @@ module.exports = function ( options ) {
                 'q',
                 'react',
                 'react-chartist',
+                'react-cookie',
                 'react-ga',
                 'react-router',
                 'reflux'
@@ -56,6 +57,7 @@ module.exports = function ( options ) {
                 views: path.join( __dirname, 'app', 'views' ),
                 utils: path.join( __dirname, 'app', 'utils' ),
                 lib: path.join( __dirname, 'app', 'lib' ),
+                assets: path.join( __dirname, 'assets' ),
 
                 //vendor aliases
                 jquery: 'jquery/dist/jquery.min.js'
@@ -67,7 +69,8 @@ module.exports = function ( options ) {
                 { test: /\.woff2?$/, loader: 'url-loader?limit=10000&mimetype=application/font-woff' },
                 { test: /\.ttf$/, loader: 'file-loader' },
                 { test: /\.eot$/, loader: 'file-loader' },
-                { test: /\.svg$/, loader: 'file-loader' }
+                { test: /\.svg$/, loader: 'file-loader' },
+                { test: /\.jpg$/, loader: 'file-loader' }
 
             ]
         },
