@@ -3,7 +3,7 @@ import cx from 'classnames';
 
 import trackActions from 'actions/trackActions';
 
-var TrackThumbnail = React.createClass( {
+export default React.createClass( {
 
     toggleTrackPlay() {
         trackActions.togglePlay( this.props.track );
@@ -47,7 +47,7 @@ var TrackThumbnail = React.createClass( {
 
                     <div className="thumbnail">
                         {track.image_url && <img src={track.image_url} alt=""/>}
-                        {!track.image_url && <img data-src="holder.js/155x155?auto=yes&text=No Image :'(" className="holder"/>}
+                        {!track.image_url && <img src={require('assets/img/no-image.jpg')}/>}
                     </div>
 
                     <div className="play-indicator">
@@ -69,8 +69,6 @@ var TrackThumbnail = React.createClass( {
     }
 
 } );
-
-export default TrackThumbnail;
 
 ////////////////////////////
 /// Private

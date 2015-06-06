@@ -1,0 +1,94 @@
+.track-as-list-item {
+    .track-as-list-item-container {
+        position: relative;
+
+        &:hover {
+            .play-indicator {
+                opacity: 0.9;
+            }
+        }
+
+        &.active {
+            .thumbnail {
+                border: 1px solid #ff5602;
+            }
+        }
+
+        .thumbnail {
+            margin-bottom: 10px;
+        }
+
+        .album-thumbnail-container {
+            padding-right: 0;
+
+            .thumbnail {
+                border: none;
+                margin-bottom: 0;
+            }
+        }
+
+        .stats {
+            position: absolute;
+            top: -5px;
+            right: 30px;
+
+            font-size: 20px;
+            font-weight: bold;
+            color: white;
+            text-shadow: -1px -1px 0 #000, 1px -1px 0 #000, -1px 1px 0 #000, 1px 1px 0 #000;
+
+            .fa-arrow-up {
+                color: #00a300;
+                text-shadow: -1px -1px 0 #ffffff, 1px -1px 0 #ffffff, -1px 1px 0 #ffffff, 1px 1px 0 #ffffff;
+            }
+            .fa-arrow-down {
+                color: red;
+                text-shadow: -1px -1px 0 #ffffff, 1px -1px 0 #ffffff, -1px 1px 0 #ffffff, 1px 1px 0 #ffffff;
+            }
+            .fa-arrows-h {
+                color: black;
+                text-shadow: -1px -1px 0 #ffffff, 1px -1px 0 #ffffff, -1px 1px 0 #ffffff, 1px 1px 0 #ffffff;
+            }
+            .fa-star {
+                color: #f47d15;
+                text-shadow: -1px -1px 0 #ffffff, 1px -1px 0 #ffffff, -1px 1px 0 #ffffff, 1px 1px 0 #ffffff;
+            }
+        }
+
+        .details {
+
+
+            .play-indicator {
+                cursor: pointer;
+
+                .fa-circle {
+                    font-size: 50px;
+                    color: #ff5602;
+                }
+                .fa.player-control {
+                    padding-left: 8px;
+                    font-size: 20px;
+                }
+                .player-control.fa-stop {
+                    padding-left: 8px;
+                    font-size: 18px;
+                }
+            }
+
+            .waveform {
+                img {
+                    background: linear-gradient(rgba(37, 37, 37, 0.99), grey, #bdbdbd);
+                    height: 60px;
+                    width: 100%;
+
+                }
+            }
+
+        }
+
+
+
+
+
+    }
+}

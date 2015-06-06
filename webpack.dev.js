@@ -2,7 +2,7 @@ var path = require( 'path' );
 
 var webpackDevConfig = {
     overrides: {
-        devtool: 'eval-source-map',
+        devtool: 'eval',
         debug: true,
         entry: {
             app: [

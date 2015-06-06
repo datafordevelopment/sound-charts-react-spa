@@ -7,6 +7,11 @@ var stylus = require( 'gulp-stylus' );
 var clean = require( 'gulp-clean' );
 var rsync = require( 'gulp-rsync' );
 
+function handleError( err ) {
+    console.log( err.toString() );
+    this.emit( 'end' );
+}
+
 // The development server (the recommended option for development)
 gulp.task( 'default', [ 'webpack-dev-server', 'stylus:compile' ] );
 
@@ -35,7 +40,7 @@ gulp.task( 'webpack-dev-server', function ( callback ) {
 
 gulp.task( 'stylus:compile', function () {
     return gulp.src( './assets/stylus/main.styl' )
-        .pipe( stylus() )
+        .pipe( stylus( { linenos: true } ).on( 'error', handleError ) )
         .pipe( gulp.dest( './assets' ) );
 } );
 
@@ -55,7 +60,7 @@ gulp.task( 'build', [ 'clean:build', 'stylus:compile', 'build:cp:index' ], funct
         .pipe( gulp.dest( 'build/bundle/' ) );
 } );
 
-gulp.task( 'deploy',  function () { // ,
+gulp.task( 'deploy', [ 'build' ], function () {
     return gulp.src( 'build/**' )
         .pipe( rsync( {
             root: 'build',

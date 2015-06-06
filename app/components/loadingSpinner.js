@@ -1,6 +1,6 @@
 import React from 'react';
 
-var LoadingSpinner = React.createClass({
+export default React.createClass({
 
     render() {
         return (
@@ -11,5 +11,3 @@ var LoadingSpinner = React.createClass({
     }
 
 });
-
-export default LoadingSpinner;

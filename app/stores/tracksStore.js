@@ -20,7 +20,7 @@ var tracksStore = Reflux.createStore( {
     },
 
     getData() {
-        return _.merge( {}, data );
+        return data.tracks;
     },
 
     getTrackByIndex( index ) {
