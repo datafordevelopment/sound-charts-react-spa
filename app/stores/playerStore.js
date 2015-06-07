@@ -26,6 +26,10 @@ let playerStore = Reflux.createStore( {
 
     },
 
+    getInitialState() {
+        return this.getData();
+    },
+
     getData() {
         return {
             currentTrackIdx,

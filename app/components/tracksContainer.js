@@ -20,15 +20,6 @@ export default React.createClass( {
         Reflux.connect( chartsViewStore, 'chartView' )
     ],
 
-    getInitialState() {
-        var tracksData = tracksStore.getData();
-
-        return {
-            tracks: tracksData.tracks,
-            currentTrack: playerStore.getData()
-        };
-    },
-
     componentDidUpdate() {
         integratePlugins.call( this );
     },

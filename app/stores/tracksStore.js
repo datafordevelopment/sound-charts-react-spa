@@ -19,6 +19,10 @@ var tracksStore = Reflux.createStore( {
 
     },
 
+    getInitialState() {
+        return this.getData();
+    },
+
     getData() {
         return data.tracks;
     },

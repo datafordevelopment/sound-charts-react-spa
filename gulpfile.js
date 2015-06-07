@@ -6,6 +6,7 @@ var WebpackDevServer = require( 'webpack-dev-server' );
 var stylus = require( 'gulp-stylus' );
 var clean = require( 'gulp-clean' );
 var rsync = require( 'gulp-rsync' );
+var runSequence = require( 'run-sequence' );
 
 function handleError( err ) {
     console.log( err.toString() );
@@ -54,10 +55,13 @@ gulp.task( 'build:cp:index', function () {
         .pipe( gulp.dest( 'build/' ) );
 } );
 
-gulp.task( 'build', [ 'clean:build', 'stylus:compile', 'build:cp:index' ], function () {
-    return gulp.src( 'app/app.js' )
-        .pipe( gulpWebpack( require( './webpack.prod.js' ), webpack ) )
-        .pipe( gulp.dest( 'build/bundle/' ) );
+gulp.task( 'build', function ( cb ) {
+    runSequence( 'clean:build', [ 'stylus:compile', 'build:cp:index' ], function () {
+        return gulp.src( 'app/app.js' )
+            .pipe( gulpWebpack( require( './webpack.prod.js' ), webpack ) )
+            .pipe( gulp.dest( 'build/bundle/' ) )
+            .on( 'end', cb );
+    } );
 } );
 
 gulp.task( 'deploy', [ 'build' ], function () {
