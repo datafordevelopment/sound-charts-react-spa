@@ -58,8 +58,10 @@ export default React.createClass( {
                     </div>
                 </div>
                 <div className="row">
-                    { loading && <LoadingSpinner /> }
-                    { tracks }
+                    <div className="col-md-12">
+                        { loading && <LoadingSpinner /> }
+                        { tracks }
+                    </div>
                 </div>
             </div>
         );
