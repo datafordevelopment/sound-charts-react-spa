@@ -1,64 +1,32 @@
 .track-as-list-item {
-    .track-as-list-item-container {
-        position: relative;
+    display: table;
+    width: 100%;
 
-        &:hover {
-            .play-indicator {
-                opacity: 0.9;
-            }
+    .active.thumbnail {
+        border: 1px solid #ff5602;
+    }
+
+    .logo {
+        img {
+            height: 120px;
+            width: auto;
         }
+    }
 
-        &.active {
-            .thumbnail {
-                border: 1px solid #ff5602;
-            }
-        }
+    .details {
+        vertical-align: top;
+        padding-left: 8px;
+        padding-right: 8px;
 
-        .thumbnail {
-            margin-bottom: 10px;
-        }
-
-        .album-thumbnail-container {
-            padding-right: 0;
-
-            .thumbnail {
-                border: none;
-                margin-bottom: 0;
-            }
-        }
-
-        .stats {
-            position: absolute;
-            top: -5px;
-            right: 30px;
-
-            font-size: 20px;
-            font-weight: bold;
-            color: white;
-            text-shadow: -1px -1px 0 #000, 1px -1px 0 #000, -1px 1px 0 #000, 1px 1px 0 #000;
-
-            .fa-arrow-up {
-                color: #00a300;
-                text-shadow: -1px -1px 0 #ffffff, 1px -1px 0 #ffffff, -1px 1px 0 #ffffff, 1px 1px 0 #ffffff;
-            }
-            .fa-arrow-down {
-                color: red;
-                text-shadow: -1px -1px 0 #ffffff, 1px -1px 0 #ffffff, -1px 1px 0 #ffffff, 1px 1px 0 #ffffff;
-            }
-            .fa-arrows-h {
-                color: black;
-                text-shadow: -1px -1px 0 #ffffff, 1px -1px 0 #ffffff, -1px 1px 0 #ffffff, 1px 1px 0 #ffffff;
-            }
-            .fa-star {
-                color: #f47d15;
-                text-shadow: -1px -1px 0 #ffffff, 1px -1px 0 #ffffff, -1px 1px 0 #ffffff, 1px 1px 0 #ffffff;
-            }
-        }
-
-        .details {
-
+        .track-details-container {
+            display: table;
+            width: 100%;
 
             .play-indicator {
+                width: 50px;
+                height: 60px;
+
+                vertical-align: middle;
                 cursor: pointer;
 
                 .fa-circle {
@@ -70,25 +38,86 @@
                     font-size: 20px;
                 }
                 .player-control.fa-stop {
-                    padding-left: 8px;
+                    padding-left: 6px;
                     font-size: 18px;
                 }
             }
 
-            .waveform {
-                img {
-                    background: linear-gradient(rgba(37, 37, 37, 0.99), grey, #bdbdbd);
-                    height: 60px;
+            .sub-details {
+                vertical-align: middle;
+
+                .track-name, .track-label {
+                    a {
+                        text-decoration: none;
+                    }
+                }
+
+                .track-label {
+                    a {
+                        font-size: 12px;
+                        color: grey;
+                    }
+                }
+
+                .track-name {
+                    a {
+                        font-size: 13px;
+                        color: black;
+                    }
+                }
+
+
+
+                .sub-container {
+                    display: table;
+                    table-layout:fixed;
+                    overflow:hidden;
+                    white-space: nowrap;
+
                     width: 100%;
 
+                    .sc-logo, .track-actions {
+                        width: 50px;
+                        text-align: right;
+                    }
                 }
             }
+        }
 
+        .track-stats {
+            text-align: right;
+            padding-top: 2px;
+
+            font-size: 11px;
+            color: grey;
+        }
+
+        .stats {
+            font-size: 13px;
+            color: silver;
+
+            .fa-arrow-up {
+                color: #00a300;
+            }
+            .fa-arrow-down {
+                color: red;
+            }
+            .fa-arrows-h {
+                color: black;
+            }
+            .fa-star {
+                color: #f47d15;
+            }
         }
 
 
+        .waveform {
+            img {
+                background: linear-gradient(rgba(37, 37, 37, 0.99), grey, #bdbdbd);
+                height: 44px;
+                width: 100%;
 
-
-
+            }
+        }
     }
 }
