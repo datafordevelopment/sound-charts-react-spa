@@ -62,7 +62,7 @@ export default React.createClass( {
                                        <div className="t-row">
                                            <div className="track-name t-cell">
                                                <div className="truncate">
-                                                   <a href={track.uri}>{track.name}</a>
+                                                   <a href={track.uri}>{ track.rank_playback_count } - {track.name}</a>
                                                </div>
                                            </div>
                                            <div className="track-actions t-cell">

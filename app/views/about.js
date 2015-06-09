@@ -24,9 +24,9 @@ var About = React.createClass( {
                 </p>
                 <h2>Sauce?</h2>
                 <p>
-                    The Soundcloud Daily Top 100 is an experiment. The Front-end source code can be found <a href="https://github.com/nazar/sound-charts-spa">here</a>&nbsp;
-                    and the API and Soundcloud importer can be found <a href="https://github.com/nazar/sound-charts-api">here</a>.
-                    Both are released to the Public Domain and are <a href="https://github.com/nazar/sound-charts-spa/blob/master/LICENSE">free of copyright</a>.
+                    The Soundcloud Daily Top 100 is an experiment. The Front-end source code can be found <a href="https://github.com/nazar/sound-charts-react-spa">here</a>&nbsp;
+                    and the API and Soundcloud charts builder can be found <a href="https://github.com/nazar/sound-charts-api">here</a>.
+                    Both are released to the Public Domain and are <a href="https://github.com/nazar/sound-charts-react-spa/blob/master/LICENSE">free of copyright</a>.
                     Please feel free to copy, use or contribute.
                 </p>
             </div>
