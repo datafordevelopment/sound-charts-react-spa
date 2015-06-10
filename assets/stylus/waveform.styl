@@ -1,0 +1,55 @@
+.waveform {
+    position: relative;
+
+    img {
+        background: linear-gradient(rgba(37, 37, 37, 0.99), grey, #bdbdbd);
+        height: 44px;
+        width: 100%;
+    }
+
+    .seek, .playing-progress {
+        position: absolute;
+        top: 0;
+        left: 0;
+        bottom: 0;
+
+        width: 0;
+    }
+
+    .seek {
+        background-color: #ff5116;
+        opacity: 0.4;
+
+        display: none;
+
+        &.active {
+            display: inherit;
+        }
+    }
+
+    .playing-progress {
+        background-color: #ff5116;
+        opacity: 0.6;
+    }
+
+    .total-time {
+        position: absolute;
+        right: 0;
+        bottom: 0;
+    }
+
+    .progress-time {
+        position: absolute;
+        left: 0;
+        bottom: 0;
+    }
+
+    .progress-time, .total-time {
+        padding: 0 2px 0 2px;
+
+        font-size: 11px;
+
+        color: silver;
+        background-color: black;
+    }
+}

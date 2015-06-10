@@ -17,6 +17,7 @@ let playerStore = Reflux.createStore( {
 
         //playerActions listeners - these listen to track player actions
         this.listenTo( trackActions.start, trackStartPlay.bind( this ) );
+        this.listenTo( trackActions.seek, trackSeekPlay.bind( this ) );
         this.listenTo( trackActions.finished, trackPlayNext.bind( this ) );
         this.listenTo( trackActions.stop, trackStopPlay.bind( this ) );
         this.listenTo( trackActions.next, trackPlayNext.bind( this ) );
@@ -62,6 +63,14 @@ function trackStartPlay() {
     this.trigger( this.getData() );
 }
 
+function trackSeekPlay( track ) {
+    setCurrentIndexToTrack( track );
+    playing = true;
+    playerAnalytics.call( this, 'Seeking Playing' );
+
+    this.trigger( this.getData() );
+}
+
 function trackStopPlay() {
     playing = false;
     playerAnalytics.call( this, 'Paused Playing' );
@@ -89,13 +98,17 @@ function trackPlayToggle( track ) {
     let trackIdx = _.findIndex( tracksStore.tracks(), t =>  t.id === track.id );
 
     if ( trackIdx !== currentTrackIdx ) {
-        currentTrackIdx = trackIdx;
+        setCurrentIndexToTrack( track );
         playing = true;
     } else {
         playing = !playing;
     }
 
     this.trigger( this.getData() );
+}
+
+function setCurrentIndexToTrack( track ) {
+    currentTrackIdx = _.findIndex( tracksStore.tracks(), t =>  t.id === track.id );
 }
 
 function setCurrentTrack( trackIdx ) {

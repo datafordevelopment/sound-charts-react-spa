@@ -1,7 +1,6 @@
 import React from 'react';
 
 import TracksContainer from 'components/tracksContainer';
-import TrackPlayer from 'components/trackPlayer';
 
 
 var Charts = React.createClass( {
@@ -10,7 +9,6 @@ var Charts = React.createClass( {
         return (
             <div id="charts">
                 <TracksContainer />
-                <TrackPlayer/>
             </div>
         );
     }

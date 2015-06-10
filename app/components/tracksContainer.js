@@ -1,16 +1,17 @@
 import _ from 'lodash';
 import React from 'react';
 import Reflux from 'reflux';
-import Holder from 'holderjs';
+import cx from 'classnames';
 
 import tracksStore from 'stores/tracksStore';
 import playerStore from 'stores/playerStore';
 import chartsViewStore from 'stores/chartsViewStore';
 
 import TrackThumbnail from 'components/trackAsThumbnail';
-import TrackAsListItem from 'components/trackAsListItem';
 import LoadingSpinner from 'components/loadingSpinner';
 import ChartsToolBar from 'components/chartsToolBar';
+import SoundCloudPlayer from 'components/soundCloudPlayer';
+import TrackPlayer from 'components/trackPlayer';
 
 export default React.createClass( {
 
@@ -34,6 +35,10 @@ export default React.createClass( {
 
     trackIsCurrentAndPlaying( track ) {
         return this.trackIsCurrentTrack( track ) && _.get( this.state, 'currentTrack.playing' );
+    },
+
+    isAlbumArtView() {
+        return chartsViewStore.currentView() === chartsViewStore.TYPEALBUM;
     },
 
     render() {
@@ -61,6 +66,8 @@ export default React.createClass( {
                     <div className="col-md-12">
                         { loading && <LoadingSpinner /> }
                         { tracks }
+
+                        { this.isAlbumArtView() && <TrackPlayer/> }
                     </div>
                 </div>
             </div>
@@ -75,8 +82,8 @@ export default React.createClass( {
 function rendererAlbumArt( track ) {
     return (
         <TrackThumbnail
-            track={ track }
             key={ track.id }
+            track={ track }
             active={ this.trackIsCurrentTrack( track ) }
             playing={ this.trackIsCurrentAndPlaying( track )   }
             />
@@ -84,17 +91,22 @@ function rendererAlbumArt( track ) {
 }
 
 function rendererListItems( track ) {
+    let classes = cx( 'thumbnail', {
+        active: this.trackIsCurrentTrack( track )
+    } );
+
     return (
-        <TrackAsListItem
-            track={ track }
-            key={ track.id }
-            active={ this.trackIsCurrentTrack( track ) }
-            playing={ this.trackIsCurrentAndPlaying( track )   }
-            />
+        <div className={classes}>
+            <SoundCloudPlayer
+                key={ track.id }
+                track={ track }
+                playing={ this.trackIsCurrentAndPlaying( track ) }
+                >
+            </SoundCloudPlayer>
+        </div>
     );
 }
 
 function integratePlugins() {
     $( React.findDOMNode( this ) ).find( '[data-toggle="tooltip"]' ).tooltip();
-    Holder.run( { images: 'img.holder' } );
 }

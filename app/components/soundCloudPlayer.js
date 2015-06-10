@@ -1,141 +1,207 @@
 import _ from 'lodash';
 import React from 'react';
-import load from 'load-script';
+import cx from 'classnames';
+import SoundCloudAudio from 'soundcloud-audio';
 
-let internalWidget = null;
-let playerState = 'stopped';
+import trackActions from 'actions/trackActions';
+
+import Waveform from 'components/waveform';
 
 export default React.createClass( {
 
-    getDefaultProps() {
-        return {
-            id: 'react-sc-widget',
-            opts: {
-                show_user: true,
-                visual: false,
-                show_comments: false,
-                show_playcount: true,
-                sharing: true,
-                liking: true,
-                buying: true,
-                download: true
-            },
-            onPlay: () => {
-            },
-            onPause: () => {
-            },
-            onEnd: () => {
-            }
-        };
-    },
+    player: null,
 
-    shouldComponentUpdate( nextProps ) {
-        return nextProps.url !== this.props.url;
-    },
-
-    componentWillReceiveProps( nextProps ) {
-        if ( this.props.playing !== nextProps.playing ) {
-            if ( nextProps.playing ) {
-                internalWidget && (playerState !== 'playing') && internalWidget.play();
-            } else {
-                internalWidget && (playerState !== 'stopped') && internalWidget.pause();
-            }
+    componentDidUpdate() {
+        if ( this.props.playing ) {
+            startPlaying.call( this );
+        } else {
+            pausePlaying.call( this );
         }
     },
 
-    componentDidMount() {
-        initializeWidget.call( this );
-        playerState = 'stopped';
-    },
-
-    componentDidUpdate() {
-        reloadWidget.call( this );
-    },
-
     componentWillUnmount() {
-        unbindEvents.call( this );
+        if ( this.player ) {
+            cleanPlayer.call( this );
+            this.setState( { progress: 0 } );
+            trackActions.stop();
+        }
     },
 
-    onPlay() {
-        playerState = 'playing';
-        this.props.onPlay();
+    toggleTrackPlay() {
+        trackActions.togglePlay( this.props.track );
     },
 
-    onPause() {
-        playerState = 'stopped';
-        this.props.onPause();
-    },
-
-    onEnd() {
-        playerState = 'stopped';
-        this.props.onEnd();
+    seekTrack( position ) {
+        startPlaying.call( this, this.props.track.duration * position / 1000 );
+        trackActions.seek( this.props.track );
     },
 
     render() {
+        let track;
+        let playerControl;
+
+        track = this.props.track;
+
+        if ( this.props.playing ) {
+            playerControl = <i className="fa player-control fa-stack-1x fa-stop fa-inverse"></i>;
+        } else {
+            playerControl = <i className="fa player-control fa-stack-1x fa-play fa-inverse"></i>;
+        }
+
         return (
-            <iframe id={this.props.id}
-                    width='100%'
-                    height='100%'
-                    scrolling='no'
-                    frameBorder='no'
-                    src='https://w.soundcloud.com/player/?url='
-                />
+            <div className="sound-cloud-player">
+                <div className="logo t-cell">
+                    {track.image_url && <img src={track.image_url} alt=""/>}
+                    {!track.image_url && <img src={require('assets/img/no-image.jpg')}/>}
+                </div>
+
+                <div className="details t-cell">
+                    <div className="t-row">
+                        <div className="track-details-container">
+                            <div className="play-indicator t-cell" onClick={this.toggleTrackPlay}>
+                                   <span className="fa-stack fa-lg">
+                                       <i className="fa fa-circle fa-stack-1x"></i>
+                                       { playerControl }
+                                   </span>
+                            </div>
+                            <div className="sub-details t-cell">
+                                <div className="sub-container">
+                                    <div className="t-row">
+                                        <div className="track-label t-cell">
+                                            <a href={track.uri}>{track.label}</a>
+                                        </div>
+                                        <div className="sc-logo t-cell">
+                                            <div className="stats">
+                                                {trackIconClass.call( this )} {trackPlaybackDelta.call( this )}
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div className="t-row">
+                                        <div className="track-name t-cell">
+                                            <div className="truncate">
+                                                <a href={track.uri}>{ track.rank_playback_count } - {track.name}</a>
+                                            </div>
+                                        </div>
+                                        <div className="track-actions t-cell">
+                                            &nbsp;
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div className="t-row">
+                        <div className="t-cell">
+                            <Waveform
+                                track={track}
+                                progress={_.get(this.state, 'progress')}
+                                onSeek={this.seekTrack}
+                                />
+                        </div>
+                    </div>
+
+                    <div className="t-row">
+                        <div className="track-stats t-cell">
+                            {track.download_count > 0 && <span><i className="fa fa-cloud-download"></i> {Number(track.download_count).toLocaleString()} &nbsp;</span>}
+                            <i className="fa fa-heart"></i> {Number(track.favoritings_count).toLocaleString()} &nbsp;
+                            <i className="fa fa-play"></i> {Number(track.playback_count).toLocaleString()} &nbsp;
+                        </div>
+                    </div>
+                </div>
+            </div>
         );
     }
 
 } );
 
-//////////////////////////////
-//// PRIVATE
-/////////////////////////////
+////////////////////////////
+/// Private
 
-function initializeWidget() {
-    soundCloudSdkLoader( this.props.id, widget => {
-        setupWidget.call( this, widget );
-        reloadWidget.call( this );
-    } );
-}
+function startPlaying( position ) {
+    if ( !this.player ) {
+        this.player = new SoundCloudAudio( '172d3d3f96adbdfe8265bb0f06e6883b' );
 
-function setupWidget( widget ) {
-    internalWidget = widget;
-    bindEvents.call( this );
-}
-
-function reloadWidget() {
-    if ( internalWidget ) {
-        internalWidget.load( this.props.url, _.merge( {}, this.props.opts, {
-            callback: loaded.bind( this )
-        } ) );
-    } else {
-        initializeWidget.call( this );
+        this.player.on( 'ended', stopPlaying.bind( this ) );
+        this.player.on( 'timeupdate', progressed.bind( this ) );
     }
-}
 
-function loaded() {
-    if ( this.props.playing ) {
-        internalWidget.play();
-    }
-}
-
-function bindEvents() {
-    internalWidget.bind( window.SC.Widget.Events.PLAY, this.onPlay );
-    internalWidget.bind( window.SC.Widget.Events.PAUSE, this.onPause );
-    internalWidget.bind( window.SC.Widget.Events.FINISH, this.onEnd );
-}
-
-function unbindEvents() {
-    internalWidget.unbind( window.SC.Widget.Events.PLAY );
-    internalWidget.unbind( window.SC.Widget.Events.PAUSE );
-    internalWidget.unbind( window.SC.Widget.Events.FINISH );
-}
-
-
-function soundCloudSdkLoader( id, cb ) {
-    if ( window.SC ) {
-        cb( window.SC.Widget( id ) );
-    } else {
-        load( 'https://w.soundcloud.com/player/api.js', () => {
-            cb( window.SC.Widget( id ) );
+    if ( _.get( this.props, 'track.stream_url' ) ) {
+        this.player.play( {
+            streamUrl: this.props.track.stream_url
         } );
+    } else if (  _.get( this.props, 'track.uri' )  ) {
+        this.player.resolve( this.props.track.uri, err => {
+            if ( err ) {
+                console.log('resolved track error', err );
+            } else {
+                this.player.play();
+                if ( position ) {
+                    this.player.audio.currentTime = position;
+                }
+            }
+        } );
+    }
+
+    if ( position ) {
+        this.player.audio.currentTime = position;
+    }
+}
+
+function stopPlaying() {
+    if ( this.player ) {
+        cleanPlayer.call( this );
+        this.setState( { progress: 0 } );
+        trackActions.finished();
+    }
+}
+
+function cleanPlayer() {
+    this.player.stop();
+
+    this.player.unbindAll();
+    this.player = null;
+}
+
+function pausePlaying() {
+    if ( this.player ) {
+        this.player.pause();
+    }
+}
+
+function progressed() {
+    let duration = (_.get( this.props, 'track.duration' ) || 0) / 1000;
+    let progress = 0;
+
+    if ( duration ) {
+        progress = 100 - ( 1 - ( this.player.audio.currentTime / duration ) ) * 100;
+        this.setState( { progress: progress } );
+    }
+}
+
+function trackIconClass() {
+    let track = this.props.track;
+    let icon;
+
+    if ( track.last_rank_playback_count ) {
+        if ( track.rank_playback_count < track.last_rank_playback_count ) {
+            icon =  'fa-arrow-up';
+        } else if ( track.rank_playback_count > track.last_rank_playback_count ) {
+            icon =  'fa-arrow-down';
+        } else {
+            icon = 'fa-arrows-h';
+        }
+    } else {
+        icon = 'fa-star';
+    }
+
+    return <i className={cx( 'fa', icon )}></i>;
+}
+
+function trackPlaybackDelta() {
+    let track = this.props.track;
+
+    if ( track.last_rank_playback_count ) {
+        return Math.abs( ( track.last_rank_playback_count || 99 ) - track.rank_playback_count ) || '';
     }
 }

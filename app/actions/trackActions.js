@@ -4,6 +4,7 @@ import {getTrackSnapshots} from 'resources/tracks';
 
 var trackActions = Reflux.createActions( {
     start: {},
+    seek: {},
     stop: {},
     togglePlay: {},
     finished: {},
