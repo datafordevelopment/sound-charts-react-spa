@@ -6,16 +6,26 @@ import SoundCloudAudio from 'soundcloud-audio';
 import trackActions from 'actions/trackActions';
 
 import Waveform from 'components/waveform';
+import InfoButtonTrack from 'components/infoButtonTrack';
 
 export default React.createClass( {
 
     player: null,
+    started: false,
 
-    componentDidUpdate() {
+    componentDidUpdate( prevProps ) {
         if ( this.props.playing ) {
-            startPlaying.call( this );
+            if ( !( this.started ) ) {
+                startPlaying.call( this );
+                scrollIntoViewIfRequired.call( this );
+                this.started = true;
+            } else if ( _.get( prevProps.track, 'id' ) !== _.get( this.props, 'track.id' ) ) {
+                cleanPlayer.call( this );
+                startPlaying.call( this );
+            }
         } else {
             pausePlaying.call( this );
+            this.started = false;
         }
     },
 
@@ -25,6 +35,7 @@ export default React.createClass( {
             this.setState( { progress: 0 } );
             trackActions.stop();
         }
+        this.started = false;
     },
 
     toggleTrackPlay() {
@@ -72,7 +83,14 @@ export default React.createClass( {
                                         </div>
                                         <div className="sc-logo t-cell">
                                             <div className="stats">
-                                                {trackIconClass.call( this )} {trackPlaybackDelta.call( this )}
+                                                <span className="info-button">
+                                                    <InfoButtonTrack
+                                                        track={track}
+                                                        />
+                                                </span>
+                                                <span className="counter">
+                                                    {trackIconClass.call( this )} {trackPlaybackDelta.call( this )}
+                                                </span>
                                             </div>
                                         </div>
                                     </div>
@@ -154,6 +172,7 @@ function stopPlaying() {
         this.setState( { progress: 0 } );
         trackActions.finished();
     }
+    this.started = false;
 }
 
 function cleanPlayer() {
@@ -203,5 +222,16 @@ function trackPlaybackDelta() {
 
     if ( track.last_rank_playback_count ) {
         return Math.abs( ( track.last_rank_playback_count || 99 ) - track.rank_playback_count ) || '';
+    }
+}
+
+function scrollIntoViewIfRequired() {
+    let $this = $( this.getDOMNode() );
+
+    if ( !( $this.visible() ) ) {
+        $.scrollTo( $this, {
+            duration: 250,
+            offset: -100
+        } );
     }
 }
