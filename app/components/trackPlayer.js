@@ -67,7 +67,6 @@ export default React.createClass( {
         } );
         let infoIconClass = this.props.isMaxed ? 'fa fa-times' : 'fa fa-info-circle';
 
-
         return (
             <div className={playerClass}>
                 <div className="container">
@@ -75,11 +74,8 @@ export default React.createClass( {
                     <div className="row">
                         <div className="col-md-11 col-xs-11 soundcloud-frame">
                             {currentTrack.track && <SoundCloudPlayer
-                                url={ currentTrack.track.uri }
+                                track={ currentTrack.track }
                                 playing={ currentTrack.playing }
-                                onPlay={ this.onStartedPlay }
-                                onEnd={ this.onEndedPlay }
-                                onPause={ this.onPausedPlay }
                                 >
                             </SoundCloudPlayer>}
                         </div>

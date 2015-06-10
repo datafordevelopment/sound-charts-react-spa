@@ -12,7 +12,6 @@ module.exports = function ( options ) {
                 'chartist/dist/chartist.min.css',
                 'chartist',
                 'classnames',
-                'holderjs',
                 'jquery',
                 'load-script',
                 'lodash',
@@ -70,7 +69,7 @@ module.exports = function ( options ) {
                 { test: /\.ttf$/, loader: 'file-loader' },
                 { test: /\.eot$/, loader: 'file-loader' },
                 { test: /\.svg$/, loader: 'file-loader' },
-                { test: /\.jpg$/, loader: 'file-loader' }
+                { test: /\.jpg|\.png/, loader: 'file-loader' }
 
             ]
         },

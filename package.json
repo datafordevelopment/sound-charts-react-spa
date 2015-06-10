@@ -12,7 +12,6 @@
         "bootstrap": "3.3.4",
         "chartist": "0.8.0",
         "classnames": "2.1.1",
-        "holderjs": "2.7.1",
         "jquery": "2.1.4",
         "load-script": "1.0.0",
         "lodash": "3.8.0",
@@ -23,7 +22,8 @@
         "react-cookie": "0.2.3",
         "react-ga": "1.0.12",
         "react-router": "0.13.3",
-        "reflux": "0.2.7"
+        "reflux": "0.2.7",
+        "soundcloud-audio" :"0.1.4"
     },
     "devDependencies": {
         "babel-loader": "5.0.0",
