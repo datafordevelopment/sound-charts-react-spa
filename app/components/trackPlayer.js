@@ -5,6 +5,7 @@ import {Navigation} from 'react-router';
 
 import playerStore from 'stores/playerStore';
 import trackActions from 'actions/trackActions';
+
 import SoundCloudPlayer from 'components/soundCloudPlayer';
 
 export default React.createClass( {
@@ -46,14 +47,6 @@ export default React.createClass( {
         trackActions.next();
     },
 
-    showInfo() {
-        if ( this.props.isMaxed ) {
-            this.transitionTo('charts');
-        } else {
-            this.transitionTo('info');
-        }
-    },
-
     render() {
         let currentTrack = this.state.currentTrack;
         let nextClass = cx( 'fa fa-step-forward', {
@@ -65,7 +58,6 @@ export default React.createClass( {
         let playerClass = cx( 'track-player', {
             max: this.state.state === 'max'
         } );
-        let infoIconClass = this.props.isMaxed ? 'fa fa-times' : 'fa fa-info-circle';
 
         return (
             <div className={playerClass}>
@@ -83,10 +75,6 @@ export default React.createClass( {
                         <div className="col-md-1 col-xs-1 player-controls">
                             <div className="control">
                                 <i className={nextClass} onClick={ this.nextTrack }></i>
-                            </div>
-
-                            <div className="control">
-                                <i className={infoIconClass} onClick={ this.showInfo }></i>
                             </div>
 
                             <div className="control">

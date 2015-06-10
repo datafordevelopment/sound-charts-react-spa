@@ -17,17 +17,7 @@ let TrackStatsAndCharts = React.createClass( {
     },
 
     componentDidMount() {
-        loadTrackStatsFor.call( this, _.get( this.props, 'track.track' ) );
-    },
-
-    componentWillReceiveProps( next ) {
-        if ( _.get( this.props, 'track.track.id' ) !== _.get( next, 'track.track.id' ) ) {
-            this.setState( {
-                loading: true
-            } );
-
-            loadTrackStatsFor.call( this, _.get( next, 'track.track' ) );
-        }
+        loadTrackStatsFor.call( this, _.get( this.props, 'track' ) );
     },
 
     render() {

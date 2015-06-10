@@ -13,6 +13,8 @@ module.exports = function ( options ) {
                 'chartist',
                 'classnames',
                 'jquery',
+                'lib/jquery.visible.js',
+                'lib/jquery.scrollTo.js',
                 'load-script',
                 'lodash',
                 'moment',
@@ -21,6 +23,7 @@ module.exports = function ( options ) {
                 'react-chartist',
                 'react-cookie',
                 'react-ga',
+                'react-portal',
                 'react-router',
                 'reflux'
             ]
@@ -54,6 +57,7 @@ module.exports = function ( options ) {
                 resources: path.join( __dirname, 'app', 'resources' ),
                 stores: path.join( __dirname, 'app', 'stores' ),
                 views: path.join( __dirname, 'app', 'views' ),
+                modals: path.join( __dirname, 'app', 'modals' ),
                 utils: path.join( __dirname, 'app', 'utils' ),
                 lib: path.join( __dirname, 'app', 'lib' ),
                 assets: path.join( __dirname, 'assets' ),
