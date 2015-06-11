@@ -11,6 +11,7 @@ var trackActions = Reflux.createActions( {
     previous: {},
     next: {},
     setToCurrentIndex: {},
+    unmounted: {},
 
     getTrackSnapshots: { asyncResult: true }
 } );

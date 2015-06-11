@@ -17,8 +17,16 @@ export default React.createClass( {
         this.offset = $( this.getDOMNode() ).parent().offset();
     },
 
-    componentDidUpdate() {
+    componentDidUpdate(  ) {
         this.offset = $( this.getDOMNode() ).parent().offset();
+    },
+
+    componentWillReceiveProps( nextProp ) {
+        if ( !(nextProp.progress > 0) ) {
+            this.setState( {
+                seekerWidth: 0
+            } );
+        }
     },
 
     enableSeek( e ) {

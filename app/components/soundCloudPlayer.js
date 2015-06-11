@@ -13,29 +13,32 @@ export default React.createClass( {
     player: null,
     started: false,
 
-    componentDidUpdate( prevProps ) {
-        if ( this.props.playing ) {
-            if ( !( this.started ) ) {
-                startPlaying.call( this );
-                scrollIntoViewIfRequired.call( this );
-                this.started = true;
-            } else if ( _.get( prevProps.track, 'id' ) !== _.get( this.props, 'track.id' ) ) {
-                cleanPlayer.call( this );
-                startPlaying.call( this );
-            }
-        } else {
-            pausePlaying.call( this );
-            this.started = false;
-        }
+    componentDidMount() {
+        initializePlayer.call( this );
     },
 
     componentWillUnmount() {
         if ( this.player ) {
             cleanPlayer.call( this );
-            this.setState( { progress: 0 } );
-            trackActions.stop();
         }
-        this.started = false;
+    },
+
+    componentDidUpdate( prevProp ) {
+        if ( this.props.playing ) {
+            if ( this.started ) {
+                //check if tracks have changed for restart
+                if ( _.get( this.props, 'track.id') !== _.get( prevProp.track, 'id' ) ) {
+                    startPlaying.call( this );
+                }
+            } else {
+                startPlaying.call( this );
+                scrollIntoViewIfRequired.call( this );
+                this.started = true;
+            }
+        } else {
+            pausePlaying.call( this );
+            this.started = false;
+        }
     },
 
     toggleTrackPlay() {
@@ -136,14 +139,50 @@ export default React.createClass( {
 ////////////////////////////
 /// Private
 
-function startPlaying( position ) {
-    if ( !this.player ) {
-        this.player = new SoundCloudAudio( '172d3d3f96adbdfe8265bb0f06e6883b' );
+function initializePlayer() {
+    let self = this;
 
-        this.player.on( 'ended', stopPlaying.bind( this ) );
-        this.player.on( 'timeupdate', progressed.bind( this ) );
+    function hookAudioHandlers() {
+        self.player.on( 'ended', stopPlaying.bind( self ) );
+        self.player.on( 'timeupdate', progressed.bind( self ) );
     }
 
+    function deferHookingAudioHandlers() {
+        window.addEventListener('keydown', primeAudio );
+        window.addEventListener('mousedown', primeAudio );
+        window.addEventListener('touchstart', primeAudio );
+    }
+
+    function primeAudio() {
+        self.player.audio.load();
+
+        window.removeEventListener('keydown', primeAudio );
+        window.removeEventListener('mousedown', primeAudio );
+        window.removeEventListener('touchstart', primeAudio );
+
+        setTimeout( ()=> {
+            hookAudioHandlers();
+        }, 250 );
+    }
+
+    //mobile workaround for Safari (iOS) and Chrome (Android)
+    //Prime audio tag with a silent clip, which will then enable autoplaying audio clips
+    //post user interaction
+
+    this.player = new SoundCloudAudio( '172d3d3f96adbdfe8265bb0f06e6883b' );
+
+    this.player.audio.play();
+
+    if ( this.player.audio.paused ) {    //on mobile
+        deferHookingAudioHandlers.call( this );
+
+    } else {
+        hookAudioHandlers.call( this );
+    }
+
+}
+
+function startPlaying( position ) {
     if ( _.get( this.props, 'track.stream_url' ) ) {
         this.player.play( {
             streamUrl: this.props.track.stream_url
@@ -168,7 +207,7 @@ function startPlaying( position ) {
 
 function stopPlaying() {
     if ( this.player ) {
-        cleanPlayer.call( this );
+        this.player.stop();
         this.setState( { progress: 0 } );
         trackActions.finished();
     }
