@@ -1,7 +1,9 @@
 import Reflux from 'reflux';
 import cookie from 'react-cookie';
+import ga from 'react-ga';
 
 import chartsViewActions from 'actions/chartsViewActions';
+import trackActions from 'actions/trackActions';
 
 var store = {
     viewType: 'album'
@@ -43,6 +45,7 @@ export default chartsViewStore;
 function eventSetViewTypeTo( type ) {
     return () => {
         setViewTypeTo.call( this, type );
+        trackActions.unmounted();
     };
 }
 
@@ -51,7 +54,14 @@ function setViewTypeTo( type ) {
         store.viewType = type;
 
         cookie.save('chartsViewType', type);
-
+        recordAnalytics( type );
         this.trigger( this.getData() );
     }
+}
+
+function recordAnalytics( viewType ) {
+    ga.event( {
+        category: 'PlayerView',
+        action: `switch to view ${viewType}`
+    } );
 }

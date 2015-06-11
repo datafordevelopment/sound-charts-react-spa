@@ -25,6 +25,8 @@ let playerStore = Reflux.createStore( {
         this.listenTo( trackActions.togglePlay, trackPlayToggle.bind( this ) );
         this.listenTo( trackActions.setToCurrentIndex, setToCurrentIndex.bind( this ) );
 
+        this.listenTo( trackActions.unmounted, playerUnmounted.bind( this ) );
+
     },
 
     getInitialState() {
@@ -75,6 +77,11 @@ function trackStopPlay() {
     playing = false;
     playerAnalytics.call( this, 'Paused Playing' );
 
+    this.trigger( this.getData() );
+}
+
+function playerUnmounted() {
+    playing = false;
     this.trigger( this.getData() );
 }
 
