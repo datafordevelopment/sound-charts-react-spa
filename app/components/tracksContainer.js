@@ -63,14 +63,10 @@ export default React.createClass( {
                     </div>
                 </div>
                 <div className="row">
-                    <div className="col-md-12">
-                        <div className="row">
-                            { loading && <LoadingSpinner /> }
-                            { tracks }
+                    { loading && <LoadingSpinner /> }
+                    { tracks }
 
-                            { this.isAlbumArtView() && <TrackPlayer/> }
-                        </div>
-                    </div>
+                    { this.isAlbumArtView() && <TrackPlayer/> }
                 </div>
             </div>
         );
@@ -98,13 +94,15 @@ function rendererListItems( track ) {
     } );
 
     return (
-        <div className={classes}>
-            <SoundCloudPlayer
-                key={ track.id }
-                track={ track }
-                playing={ this.trackIsCurrentAndPlaying( track ) }
-                >
-            </SoundCloudPlayer>
+        <div className="col-md-12">
+            <div className={classes}>
+                <SoundCloudPlayer
+                    key={ track.id }
+                    track={ track }
+                    playing={ this.trackIsCurrentAndPlaying( track ) }
+                    >
+                </SoundCloudPlayer>
+            </div>
         </div>
     );
 }

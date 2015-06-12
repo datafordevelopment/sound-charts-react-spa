@@ -1,104 +1,101 @@
 .track-thumbnail {
 
-    .thumbnail-container {
-        position: relative;
-        margin-bottom: 10px;
+    position: relative;
+    margin-bottom: 10px;
 
-        &:hover {
-            .play-indicator {
-                opacity: 0.9;
-            }
-        }
-
-        &.active {
-            .thumbnail {
-                border: 1px solid #ff5602;
-            }
-        }
-
-        .thumbnail {
-
-            img {
-                width: 100%;
-
-                min-height: 100px;
-                min-width: 100px;
-            }
-
-            margin-bottom: 0;
-        }
-
-        .rank {
-            position: absolute;
-            top: 7px;
-            left: 30px;
-
-            font-size: 25px;
-            font-weight: bold;
-            color: white;
-            text-shadow: -1px -1px 0 #000, 1px -1px 0 #000, -1px 1px 0 #000, 1px 1px 0 #000;
-        }
-
-        .stats {
-            position: absolute;
-            top: 10px;
-            right: 30px;
-
-            font-size: 20px;
-            font-weight: bold;
-            color: white;
-            text-shadow: -1px -1px 0 #000, 1px -1px 0 #000, -1px 1px 0 #000, 1px 1px 0 #000;
-
-            .fa-arrow-up {
-                color: #00a300;
-                text-shadow: -1px -1px 0 #ffffff, 1px -1px 0 #ffffff, -1px 1px 0 #ffffff, 1px 1px 0 #ffffff;
-            }
-            .fa-arrow-down {
-                color: red;
-                text-shadow: -1px -1px 0 #ffffff, 1px -1px 0 #ffffff, -1px 1px 0 #ffffff, 1px 1px 0 #ffffff;
-            }
-            .fa-arrows-h {
-                color: black;
-                text-shadow: -1px -1px 0 #ffffff, 1px -1px 0 #ffffff, -1px 1px 0 #ffffff, 1px 1px 0 #ffffff;
-            }
-            .fa-star {
-                color: #f47d15;
-                text-shadow: -1px -1px 0 #ffffff, 1px -1px 0 #ffffff, -1px 1px 0 #ffffff, 1px 1px 0 #ffffff;
-            }
-        }
-
+    &:hover {
         .play-indicator {
-            position: absolute;
+            opacity: 0.9;
+        }
+    }
 
-            top: 50%;
-            left: 50%;
-            height: 30%;
-            width: 50%;
-            margin: -10% 0 0 -34%;
+    &.active {
+        .thumbnail {
+            border: 1px solid #ff5602;
+        }
+    }
 
-            text-align: center;
+    .thumbnail {
 
-            opacity: 0;
+        img {
+            width: 100%;
 
-            cursor: pointer;
+            min-height: 100px;
+            min-width: 100px;
+        }
 
-            transition: opacity 0.1s ease-in-out;
+        margin-bottom: 0;
+    }
 
-            .fa-circle {
-                font-size: 80px;
-                color: #ff5602;
-            }
+    .rank {
+        position: absolute;
+        top: 7px;
+        left: 30px;
 
-            .fa.player-control {
-                padding-left: 22px;
-                font-size: 40px;
-            }
+        font-size: 25px;
+        font-weight: bold;
+        color: white;
+        text-shadow: -1px -1px 0 #000, 1px -1px 0 #000, -1px 1px 0 #000, 1px 1px 0 #000;
+    }
 
-            .player-control.fa-stop {
-                padding-left: 19px;
-                font-size: 35px;
-            }
+    .stats {
+        position: absolute;
+        top: 10px;
+        right: 30px;
 
+        font-size: 20px;
+        font-weight: bold;
+        color: white;
+        text-shadow: -1px -1px 0 #000, 1px -1px 0 #000, -1px 1px 0 #000, 1px 1px 0 #000;
+
+        .fa-arrow-up {
+            color: #00a300;
+            text-shadow: -1px -1px 0 #ffffff, 1px -1px 0 #ffffff, -1px 1px 0 #ffffff, 1px 1px 0 #ffffff;
+        }
+        .fa-arrow-down {
+            color: red;
+            text-shadow: -1px -1px 0 #ffffff, 1px -1px 0 #ffffff, -1px 1px 0 #ffffff, 1px 1px 0 #ffffff;
+        }
+        .fa-arrows-h {
+            color: black;
+            text-shadow: -1px -1px 0 #ffffff, 1px -1px 0 #ffffff, -1px 1px 0 #ffffff, 1px 1px 0 #ffffff;
+        }
+        .fa-star {
+            color: #f47d15;
+            text-shadow: -1px -1px 0 #ffffff, 1px -1px 0 #ffffff, -1px 1px 0 #ffffff, 1px 1px 0 #ffffff;
+        }
+    }
+
+    .play-indicator {
+        position: absolute;
+
+        top: 50%;
+        left: 50%;
+        height: 30%;
+        width: 50%;
+        margin: -10% 0 0 -34%;
+
+        text-align: center;
+
+        opacity: 0;
+
+        cursor: pointer;
+
+        transition: opacity 0.1s ease-in-out;
+
+        .fa-circle {
+            font-size: 80px;
+            color: #ff5602;
+        }
+
+        .fa.player-control {
+            padding-left: 22px;
+            font-size: 40px;
+        }
+
+        .player-control.fa-stop {
+            padding-left: 19px;
+            font-size: 35px;
         }
 
     }
@@ -114,5 +111,6 @@
 
         font-size: 12px;
     }
+
 
 }

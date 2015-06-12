@@ -80,10 +80,13 @@ export default React.createClass( {
 
         return (
             <div className="waveform"
-                 onMouseMove={this.seeking}
                  onMouseEnter={this.enableSeek}
+                 onMouseMove={this.seeking}
                  onMouseLeave={this.disableSeek}
+
                  onTouchEnd={this.disableSeek}
+                 onTouchCancel={this.disableSeek}
+
                  onClick={this.seek}
                 >
 

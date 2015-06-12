@@ -23,7 +23,7 @@ export default React.createClass( {
         }
 
         thumbnailClasses = cx(
-            'thumbnail-container',
+            'track-thumbnail',
             'col-xs-6 col-sm-4 col-md-2 col-lg-2',
             {
                 active: this.props.active
@@ -31,39 +31,32 @@ export default React.createClass( {
         );
 
         return (
-            <div className="track-thumbnail">
-
-
-                <div className={thumbnailClasses}
-                     onClick={this.toggleTrackPlay}
-                    >
+            <div className={thumbnailClasses}
+                 onClick={this.toggleTrackPlay}
+                >
                     <div className="rank">
-                        { track.rank_playback_count }
-                    </div>
-
-                    <div className="stats">
-                        {trackIconClass.call( this )} {trackPlaybackDelta.call( this )}
-                    </div>
-
-                    <div className="thumbnail">
-                        {track.image_url && <img src={track.image_url} alt=""/>}
-                        {!track.image_url && <img src={require('assets/img/no-image.jpg')}/>}
-                    </div>
-
-                    <div className="play-indicator">
-                        <span className="fa-stack fa-lg">
-                            <i className="fa fa-circle fa-stack-1x"></i>
-                            { playerControl }
-                        </span>
-                    </div>
-
-                    <div className="track-title" data-toggle="tooltip" data-placement="top" title={ track.name }>
-                        { track.name }
-                    </div>
-
+                    { track.rank_playback_count }
                 </div>
 
+                <div className="stats">
+                    {trackIconClass.call( this )} {trackPlaybackDelta.call( this )}
+                </div>
 
+                <div className="thumbnail">
+                    {track.image_url && <img src={track.image_url} alt=""/>}
+                    {!track.image_url && <img src={require('assets/img/no-image.jpg')}/>}
+                </div>
+
+                <div className="play-indicator">
+                    <span className="fa-stack fa-lg">
+                        <i className="fa fa-circle fa-stack-1x"></i>
+                        { playerControl }
+                    </span>
+                </div>
+
+                <div className="track-title" data-toggle="tooltip" data-placement="top" title={ track.name }>
+                    { track.name }
+                </div>
             </div>
         );
     }

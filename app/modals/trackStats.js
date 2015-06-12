@@ -22,7 +22,7 @@ export default React.createClass({
                     <div className="modal-content">
                         <div className="modal-header">
                             <button type="button" className="close" aria-label="Close" onClick={this.props.closePortal}>
-                                <i className="fa fa-times" aria-hidden="true"></i>
+                                <i className="fa fa-times-circle" aria-hidden="true"></i>
                             </button>
                         </div>
                         <div className="modal-body">
