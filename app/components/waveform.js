@@ -83,10 +83,6 @@ export default React.createClass( {
                  onMouseEnter={this.enableSeek}
                  onMouseMove={this.seeking}
                  onMouseLeave={this.disableSeek}
-
-                 onTouchEnd={this.disableSeek}
-                 onTouchCancel={this.disableSeek}
-
                  onClick={this.seek}
                 >
 
