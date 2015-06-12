@@ -29,6 +29,7 @@ export default React.createClass( {
                 //check if tracks have changed for restart
                 if ( _.get( this.props, 'track.id') !== _.get( prevProp.track, 'id' ) ) {
                     startPlaying.call( this );
+                    scrollIntoViewIfRequired.call( this );
                 }
             } else {
                 startPlaying.call( this );
@@ -160,9 +161,7 @@ function initializePlayer() {
         window.removeEventListener('mousedown', primeAudio );
         window.removeEventListener('touchstart', primeAudio );
 
-        setTimeout( ()=> {
-            hookAudioHandlers();
-        }, 250 );
+        setTimeout( hookAudioHandlers, 250 );
     }
 
     //mobile workaround for Safari (iOS) and Chrome (Android)

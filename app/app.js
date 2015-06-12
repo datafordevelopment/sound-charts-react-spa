@@ -17,6 +17,8 @@ import routes from './routes';
 
 ga.initialize( 'UA-55368874-1' );
 
+React.initializeTouchEvents(true);
+
 Router.run( routes, Router.HistoryLocation, function ( Handler, state ) {
     ga.pageview( state.pathname );
     React.render( <Handler/>, document.getElementById( 'application' ) );

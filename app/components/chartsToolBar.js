@@ -5,6 +5,8 @@ import cx from 'classnames';
 import chartsViewActions from 'actions/chartsViewActions';
 import chartsViewStore from 'stores/chartsViewStore';
 
+import ShareButtons from 'components/shareButtons';
+
 export default React.createClass({
 
     mixins: [
@@ -21,7 +23,10 @@ export default React.createClass({
         return (
             <div className="charts-toolbar clearfix">
                 <div className="row">
-                    <div className="col-md-12 pull-right">
+                    <div className="col-md-8 col-sm-8 col-xs-8">
+                        <ShareButtons />
+                    </div>
+                    <div className="col-md-4 col-sm-4 col-xs-4 pull-right">
                         <div className="btn-toolbar" role="toolbar">
                             <div className="btn-group pull-right" role="group">
                                 <button type="button"

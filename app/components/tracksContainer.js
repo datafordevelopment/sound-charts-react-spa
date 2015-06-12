@@ -64,10 +64,12 @@ export default React.createClass( {
                 </div>
                 <div className="row">
                     <div className="col-md-12">
-                        { loading && <LoadingSpinner /> }
-                        { tracks }
+                        <div className="row">
+                            { loading && <LoadingSpinner /> }
+                            { tracks }
 
-                        { this.isAlbumArtView() && <TrackPlayer/> }
+                            { this.isAlbumArtView() && <TrackPlayer/> }
+                        </div>
                     </div>
                 </div>
             </div>
