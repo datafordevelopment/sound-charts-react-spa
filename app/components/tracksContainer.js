@@ -2,6 +2,7 @@ import _ from 'lodash';
 import React from 'react';
 import Reflux from 'reflux';
 import cx from 'classnames';
+import Layzr from 'layzr.js';
 
 import tracksStore from 'stores/tracksStore';
 import playerStore from 'stores/playerStore';
@@ -108,5 +109,6 @@ function rendererListItems( track ) {
 }
 
 function integratePlugins() {
+    this.layzr = new Layzr();
     $( React.findDOMNode( this ) ).find( '[data-toggle="tooltip"]' ).tooltip();
 }

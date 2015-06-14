@@ -3,21 +3,12 @@ import Chartist from 'chartist';
  * Chartist.js plugin to display a data label on top of the points in a line chart.
  *
  */
-/* global Chartist */
-(function(window, document) {
-    'use strict';
-
-
+(function(window, document, Chartist) {
     var defaultOptions = {
         currency: undefined,
         // showTooltips: true,
         // tooltipEvents: ['mousemove', 'touchstart', 'touchmove'],
-        labelClass: 'ct-label',
-        // labelOffset: {
-        //   x: 0,
-        //   y: -10
-        // },
-        // textAnchor: 'middle'
+        labelClass: 'ct-label'
     };
 
     Chartist.plugins = Chartist.plugins || {};

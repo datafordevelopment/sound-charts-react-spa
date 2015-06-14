@@ -66,7 +66,7 @@ export default React.createClass( {
         return (
             <div className="sound-cloud-player">
                 <div className="logo t-cell">
-                    {track.image_url && <img src={track.image_url} alt=""/>}
+                    {track.image_url && <img data-layzr={track.image_url} src={require('assets/img/loading-album.jpg')} alt=""/>}
                     {!track.image_url && <img src={require('assets/img/no-image.jpg')}/>}
                 </div>
 
@@ -206,7 +206,7 @@ function startPlaying( position ) {
 
 function stopPlaying() {
     if ( this.player ) {
-        this.player.stop();
+        this.player.audio.readyState && this.player.stop();
         this.setState( { progress: 0 } );
         trackActions.finished();
     }
@@ -214,7 +214,7 @@ function stopPlaying() {
 }
 
 function cleanPlayer() {
-    this.player.stop();
+    this.player.audio.readyState && this.player.stop();
 
     this.player.unbindAll();
     this.player = null;

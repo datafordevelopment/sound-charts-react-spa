@@ -86,7 +86,7 @@ export default React.createClass( {
                  onClick={this.seek}
                 >
 
-                <img src={track.waveform_url}/>
+                <img data-layzr={track.waveform_url} src={require('assets/img/loading-wave.jpg')}/>
 
                 { (this.props.progress > 0) && <div className="playing-progress" style={ {width: `${this.props.progress}%`} }></div>}
 
