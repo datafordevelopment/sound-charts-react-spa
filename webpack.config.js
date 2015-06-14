@@ -13,6 +13,7 @@ module.exports = function ( options ) {
                 'chartist',
                 'classnames',
                 'jquery',
+                'layzr.js',
                 'lib/jquery.visible.js',
                 'lib/jquery.scrollTo.js',
                 'load-script',
@@ -25,7 +26,8 @@ module.exports = function ( options ) {
                 'react-ga',
                 'react-portal',
                 'react-router',
-                'reflux'
+                'reflux',
+                'soundcloud-audio'
             ]
         },
 

@@ -43,7 +43,7 @@ export default React.createClass( {
                 </div>
 
                 <div className="thumbnail">
-                    {track.image_url && <img src={track.image_url} alt=""/>}
+                    {track.image_url && <img data-layzr={track.image_url} src={require('assets/img/loading-album.jpg')} alt=""/>}
                     {!track.image_url && <img src={require('assets/img/no-image.jpg')}/>}
                 </div>
 
