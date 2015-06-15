@@ -2,6 +2,14 @@ var _ = require( 'lodash' );
 var path = require( 'path' );
 var webpack = require( 'webpack' );
 
+var pathAppTo;
+
+function pathTo() {
+    return path.join( __dirname, 'src', path.join.apply( path, arguments ) );
+}
+
+pathAppTo = _.partial( pathTo, 'app' );
+
 module.exports = function ( options ) {
     var config = _.merge( {}, {
         entry: {
@@ -24,6 +32,7 @@ module.exports = function ( options ) {
                 'react-chartist',
                 'react-cookie',
                 'react-ga',
+                'react-infinite-scroll-mixin',
                 'react-portal',
                 'react-router',
                 'reflux',
@@ -54,15 +63,16 @@ module.exports = function ( options ) {
             extensions: [ '', '.js', '.jsx' ],
             alias: {
                 //application aliases
-                actions: path.join( __dirname, 'app', 'actions' ),
-                components: path.join( __dirname, 'app', 'components' ),
-                resources: path.join( __dirname, 'app', 'resources' ),
-                stores: path.join( __dirname, 'app', 'stores' ),
-                views: path.join( __dirname, 'app', 'views' ),
-                modals: path.join( __dirname, 'app', 'modals' ),
-                utils: path.join( __dirname, 'app', 'utils' ),
-                lib: path.join( __dirname, 'app', 'lib' ),
-                assets: path.join( __dirname, 'assets' ),
+                actions: pathAppTo( 'actions' ),
+                components: pathAppTo( 'components' ),
+                resources: pathAppTo( 'resources' ),
+                stores: pathAppTo( 'stores' ),
+                views: pathAppTo( 'views' ),
+                modals: pathAppTo( 'modals' ),
+                utils: pathAppTo( 'utils' ),
+                lib: pathAppTo( 'lib' ),
+
+                assets: pathTo( 'assets' ),
 
                 //vendor aliases
                 jquery: 'jquery/dist/jquery.min.js'

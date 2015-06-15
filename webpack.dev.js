@@ -8,7 +8,7 @@ var webpackDevConfig = {
             app: [
                 'webpack-dev-server/client?http://192.168.10.10:8080',
                 'webpack/hot/only-dev-server',
-                './app/app.js'
+                './src/app/app.js'
             ]
         }
     },
@@ -17,7 +17,7 @@ var webpackDevConfig = {
         {
             test: /\.jsx?$/,
             loaders: [ 'react-hot', 'babel' ],
-            include: path.join( __dirname, 'app' ),
+            include: path.join( __dirname, 'src', 'app' ),
             exclude: path.join( __dirname, 'node_modules' )
         }
     ]

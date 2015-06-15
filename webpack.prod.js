@@ -6,7 +6,7 @@ var webpackProdConfig = {
     overrides: {
         entry: {
             app: [
-                './app/app.js'
+                './src/app/app.js'
             ]
         }
     },
@@ -31,7 +31,7 @@ var webpackProdConfig = {
         {
             test: /\.jsx?$/,
             loaders: [ 'babel' ],
-            include: path.join( __dirname, 'app' ),
+            include: path.join( __dirname, 'src', 'app' ),
             exclude: path.join( __dirname, 'node_modules' )
         }
     ]
