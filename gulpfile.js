@@ -1,3 +1,4 @@
+var path = require( 'path' );
 var gulp = require( 'gulp' );
 var gutil = require( 'gulp-util' );
 var webpack = require( 'webpack' );
@@ -21,6 +22,7 @@ gulp.task( 'webpack-dev-server', function ( callback ) {
 
     // Start a webpack-dev-server
     new WebpackDevServer( webpack( config ), {
+        contentBase: path.join( __dirname, 'src' ),
         publicPath: config.output.publicPath,
         hot: true,
         historyApiFallback: true,
@@ -36,13 +38,13 @@ gulp.task( 'webpack-dev-server', function ( callback ) {
         } );
 
     //setup stylus watcher
-    gulp.watch( [ 'assets/stylus/*.styl', 'assets/stylus/**/*.styl' ], [ 'stylus:compile' ] );
+    gulp.watch( [ 'src/assets/stylus/*.styl', 'src/assets/stylus/**/*.styl' ], [ 'stylus:compile' ] );
 } );
 
 gulp.task( 'stylus:compile', function () {
-    return gulp.src( './assets/stylus/main.styl' )
+    return gulp.src( './src/assets/stylus/main.styl' )
         .pipe( stylus( { linenos: true } ).on( 'error', handleError ) )
-        .pipe( gulp.dest( './assets' ) );
+        .pipe( gulp.dest( './src/assets' ) );
 } );
 
 gulp.task( 'clean:build', function () {
@@ -52,15 +54,15 @@ gulp.task( 'clean:build', function () {
 
 gulp.task( 'build:cp:index', function () {
     return gulp.src( [
-        './index.html',
-        './favicon.ico'
+        './src/index.html',
+        './src/favicon.ico'
     ] )
         .pipe( gulp.dest( 'build/' ) );
 } );
 
 gulp.task( 'build', function ( cb ) {
     runSequence( 'clean:build', [ 'stylus:compile', 'build:cp:index' ], function () {
-        return gulp.src( 'app/app.js' )
+        return gulp.src( 'src/app/app.js' )
             .pipe( gulpWebpack( require( './webpack.prod.js' ), webpack ) )
             .pipe( gulp.dest( 'build/bundle/' ) )
             .on( 'end', cb );
