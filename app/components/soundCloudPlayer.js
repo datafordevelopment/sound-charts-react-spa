@@ -54,6 +54,7 @@ export default React.createClass( {
     render() {
         let track;
         let playerControl;
+        let album;
 
         track = this.props.track;
 
@@ -63,11 +64,20 @@ export default React.createClass( {
             playerControl = <i className="fa player-control fa-stack-1x fa-play fa-inverse"></i>;
         }
 
+        if ( track.image_url ) {
+            if ( this.props.disableLayzr ) {
+                album = <img src={track.image_url} />;
+            } else {
+                album = <img data-layzr={track.image_url} src={require('assets/img/loading-album.jpg')} />;
+            }
+        } else {
+            album = <img src={require('assets/img/no-image.jpg')}/>;
+        }
+
         return (
             <div className="sound-cloud-player">
                 <div className="logo t-cell">
-                    {track.image_url && <img data-layzr={track.image_url} src={require('assets/img/loading-album.jpg')} alt=""/>}
-                    {!track.image_url && <img src={require('assets/img/no-image.jpg')}/>}
+                    {album}
                 </div>
 
                 <div className="details t-cell">

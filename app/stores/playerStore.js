@@ -52,10 +52,12 @@ export default playerStore;
 //////////////////
 
 function tracksChanged() {
-    playing = false;
-    currentTrackIdx = 0;
+    if ( currentTrackIdx === -1 ) {
+        playing = false;
+        currentTrackIdx = 0;
 
-    this.trigger( this.getData() );
+        this.trigger( this.getData() );
+    }
 }
 
 function trackStartPlay() {

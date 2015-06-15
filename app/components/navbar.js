@@ -23,7 +23,7 @@ export default React.createClass( {
                             <span className="icon-bar"></span>
                             <span className="icon-bar"></span>
                         </button>
-                        <a className="navbar-brand" href="/">Soundcloud Daily Top 100</a>
+                        <a className="navbar-brand" href="/">Soundcloud Daily Top 1000</a>
                     </div>
                     <div className="navbar-collapse collapse">
                         <ul className="nav navbar-nav">
