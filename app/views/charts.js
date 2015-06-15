@@ -8,7 +8,7 @@ var Charts = React.createClass( {
     render() {
         return (
             <div id="charts">
-                <TracksContainer />
+                <TracksContainer initialPage={0} offset={50} />
             </div>
         );
     }

@@ -9,6 +9,17 @@ export default React.createClass( {
         trackActions.togglePlay( this.props.track );
     },
 
+    componentDidUpdate() {
+        let $this = $( this.getDOMNode() );
+
+        if ( this.props.playing && !( $this.visible() ) ) {
+            $.scrollTo( $this, {
+                duration: 250,
+                offset: -100
+            } );
+        }
+    },
+
     render() {
         let track;
         let playerControl;

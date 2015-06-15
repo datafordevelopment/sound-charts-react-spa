@@ -2,7 +2,6 @@ import _ from 'lodash';
 import Reflux from 'reflux';
 
 import chartActions from 'actions/chartActions';
-//import trackActions from 'actions/trackActions';
 
 var data = {
     tracks: []
@@ -48,7 +47,7 @@ export default tracksStore;
 //////////////////
 
 function loadedCharts( tracks ) {
-    data.tracks = tracks;
+    data.tracks = _.union( data.tracks, tracks );
 
     this.trigger( this.getData() );
 }

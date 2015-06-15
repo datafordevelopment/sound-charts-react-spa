@@ -22,7 +22,7 @@ function ajax( url, verb, data ) {
             url,
             data: JSON.stringify( data ),
             type: verb,
-            dataType: 'json',
+            dataType: 'json'
         } )
     );
 }

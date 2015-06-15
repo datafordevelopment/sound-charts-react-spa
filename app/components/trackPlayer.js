@@ -67,6 +67,7 @@ export default React.createClass( {
                         <div className="col-md-11 col-xs-11 soundcloud-frame">
                             {currentTrack.track && <SoundCloudPlayer
                                 track={ currentTrack.track }
+                                disableLayzr={true}
                                 playing={ currentTrack.playing }
                                 >
                             </SoundCloudPlayer>}

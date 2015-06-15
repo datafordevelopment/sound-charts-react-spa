@@ -3,6 +3,9 @@ import React from 'react';
 import Reflux from 'reflux';
 import cx from 'classnames';
 import Layzr from 'layzr.js';
+import InfiniteScrollMixin from 'react-infinite-scroll-mixin';
+
+import chartActions from 'actions/chartActions';
 
 import tracksStore from 'stores/tracksStore';
 import playerStore from 'stores/playerStore';
@@ -19,7 +22,8 @@ export default React.createClass( {
     mixins: [
         Reflux.connect( tracksStore, 'tracks' ),
         Reflux.connect( playerStore, 'currentTrack' ),
-        Reflux.connect( chartsViewStore, 'chartView' )
+        Reflux.connect( chartsViewStore, 'chartView' ),
+        InfiniteScrollMixin
     ],
 
     componentDidUpdate() {
@@ -40,6 +44,14 @@ export default React.createClass( {
 
     isAlbumArtView() {
         return chartsViewStore.currentView() === chartsViewStore.TYPEALBUM;
+    },
+
+    fetchNextPage( nextPage ) {
+        let perPage = 50;
+
+        if ( (perPage * nextPage) < 1000 ) {
+            chartActions.loadLatestCharts( nextPage, perPage );
+        }
     },
 
     render() {
