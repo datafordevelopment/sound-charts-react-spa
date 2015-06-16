@@ -24,6 +24,7 @@ module.exports = function ( options ) {
                 'layzr.js',
                 'lib/jquery.visible.js',
                 'lib/jquery.scrollTo.js',
+                'lib/chartistTooltips.js',
                 'load-script',
                 'lodash',
                 'moment',

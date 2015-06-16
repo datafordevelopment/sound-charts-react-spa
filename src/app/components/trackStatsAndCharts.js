@@ -2,7 +2,6 @@ import _ from 'lodash';
 import moment from 'moment';
 import React from 'react';
 import Chartist from 'chartist';
-import ChartistToolTip from 'lib/chartistTooltips';
 import ChartistGraph from 'react-chartist';
 
 

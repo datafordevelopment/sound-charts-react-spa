@@ -9,10 +9,11 @@ export default React.createClass( {
         trackActions.togglePlay( this.props.track );
     },
 
-    componentDidUpdate() {
+    componentDidUpdate( prevProps ) {
         let $this = $( this.getDOMNode() );
 
-        if ( this.props.playing && !( $this.visible() ) ) {
+        //focus in view if this thumbnail just started playing
+        if ( !(prevProps.playing) && this.props.playing && !( $this.visible() ) ) {
             $.scrollTo( $this, {
                 duration: 250,
                 offset: -100
